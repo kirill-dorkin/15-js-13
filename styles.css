@@ -105,3 +105,6 @@ body.dark .prim.changed{background:#4a3417;color:#ffd39b;border-color:#8a6232}
 .download a.open-link{background:var(--pale);color:var(--purple)}.download{flex-wrap:wrap}
 @media (max-height:800px) and (min-width:761px){.pr-row{padding:5px 0}.flow{gap:3px;font-size:12px}.goal .minutes{font-size:20px}}
 body{color:var(--ink);background:var(--bg)}
+.pr-row{grid-template-columns:25px minmax(0,.8fr) minmax(0,1.05fr) minmax(0,1fr);grid-template-areas:"n b c r";padding:6px 0;font-size:clamp(12px,.95vw,14px)}.pr-row i{align-self:center}.pr-ret{font-size:.9em}
+@media (max-height:800px) and (min-width:761px){.pr-row{padding:4px 0;font-size:12px}.task-list{gap:4px}.task-list .tip{margin-top:4px}}
+@media (max-width:900px){.pr-row{grid-template-columns:25px 1fr;grid-template-areas:"n b" "n c" "n r"}}

@@ -128,8 +128,8 @@ const slides = [
   { type: 'theory', label: '22 / ЗАЧЕМ', section: 'Зачем это всё', title: 'Через месяц — <em>React</em>', lead: 'React понимает «данные изменились», только если пришёл новый объект или массив.', minutes: 2,
     code: '// так React НЕ увидит изменений:\ncart.push(tea);\nsetCart(cart);              // та же ссылка\n\n// так увидит и перерисует:\nsetCart([...cart, tea]);    // новый массив\n\nsetCart(cart.map((item) =>\n  item.id === id ? { ...item, qty: item.qty + 1 } : item\n));',
     items: [['Сравнение ссылок', 'React сравнивает старое и новое состояние через ===.'], ['Новая ссылка', 'Новый массив/объект = «есть изменения» → перерисовка.'], ['Сегодняшний урок', 'Это и есть код для React — только без React.']], notes: 'Мотивация: всё, что сегодня выучили, — ежедневный код React-разработчика.' },
-  { type: 'practice', practice: 'joint', label: '23 / ВМЕСТЕ', section: 'Практика', title: 'Вместе: <em>корзина MiniShop</em>', lead: 'Три функции для корзины — каждая в одну строку. Результат смотрим в консоли: новая корзина и старая.', minutes: 20, notes: 'Откройте materials/joint/index.html и консоль (F12) на проекторе, script.js — в редакторе рядом. Начните с разминки 0: пусть группа скажет ответы до обновления страницы. Затем addToCart вместе: F5 — «Новая» с Соком, «Старая» без него. Покажите ошибку специально: cart.push(product); return cart; — Сок появится и в «Старой». Задание 4 — ученики пишут сами три console.log с ===' },
-  { type: 'practice', practice: 'solo', label: '24 / САМИ', section: 'Практика', title: 'Самостоятельно: <em>плейлист</em>', lead: 'То же самое, но с песнями. Цель: «Новый» совпадает с «Ожидается», «Старый» не изменился.', minutes: 15, notes: 'Ученики открывают materials/solo/index.html и консоль. Это те же три функции, что в корзине, — можно подглядывать в совместную практику. Не подсказывайте код — спрашивайте: «какой метод возвращает новый массив?». Бонус — для тех, кто закончил раньше' },
+  { type: 'practice', practice: 'joint', label: '23 / ВМЕСТЕ', section: 'Практика', title: 'Вместе: <em>магазин в консоли</em>', lead: 'Собираем магазин по шагам: каждый шаг повторяет прошлые уроки, с шага 5 — сегодняшняя тема. В конце — сценарий покупателя.', minutes: 25, notes: 'Подробный сценарий — teacher/JOINT-GUIDE.md: что писать на каждом шаге, что спросить, что должно появиться в консоли. VS Code слева, браузер с консолью справа. Главный вопрос в конце: почему cart — let, если мы ничего не меняем? Массивы не меняем — меняется, на какой массив указывает переменная.' },
+  { type: 'practice', practice: 'solo', label: '24 / САМИ', section: 'Практика', title: 'Самостоятельно: <em>плейлист</em>', lead: 'Те же 8 шагов, что в магазине, только песни. Подглядывать в совместную практику можно.', minutes: 15, notes: 'Ученики открывают materials/solo/index.html и консоль. Это те же три функции, что в корзине, — можно подглядывать в совместную практику. Не подсказывайте код — спрашивайте: «какой метод возвращает новый массив?». Бонус — для тех, кто закончил раньше' },
   { type: 'summary', part: 'concepts', label: '25 / ШПАРГАЛКА 1/2', section: 'Итог', title: 'Шпаргалка: <em>главные понятия</em>', lead: 'Всё правило урока на одном экране. Листать презентацию не нужно — можно распечатать или скачать.', minutes: 3, notes: 'Пусть ученики сфотографируют или скачают. Пройдитесь по каждому блоку одной фразой.' },
   { type: 'summary', part: 'exceptions', label: '26 / ШПАРГАЛКА 2/2', section: 'Итог', title: 'Шпаргалка: <em>исключения и ловушки</em>', lead: 'Именно эти случаи дают ошибки в домашке. Проверьте себя по списку.', minutes: 3, notes: 'Спросите по 2–3 пункта: «почему так?» — без подсказки.' },
   { type: 'end', title: 'Готово', section: 'Итог', minutes: 1, notes: 'Домашнее задание: список задач. Проверка встроена в файл.' },
@@ -157,21 +157,29 @@ const BUGS = [
 
 const PRACTICE = {
   joint: {
-    caption: 'materials/joint · 20 минут', zip: './materials/joint.zip', files: 'index.html · script.js',
+    caption: 'materials/joint · 25 минут', zip: './materials/joint.zip', files: 'index.html · script.js',
     tasks: [
-      ['Добавить товар', 'addToCart(cart, product)', 'return [...cart, product]'],
-      ['Удалить товар', 'removeFromCart(cart, id)', 'return cart.filter(…)'],
-      ['Количество +1', 'increaseQty(cart, id)', 'return cart.map(…) + { ...item }'],
-      ['Сравнить через ===', 'cart3 === cart', 'false · false · true'],
+      ['Найти товар', 'findProduct(id)', 'find · уроки 5, 6, 12'],
+      ['Строка товара', 'formatItem(item)', 'шаблонные строки · 3, 7'],
+      ['Показать корзину', 'printCart(cart)', 'if, forEach · 4, 8, 11'],
+      ['Сумма', 'getTotal(cart)', 'for...of · 3, 9'],
+      ['Количество +1', 'increaseQty(cart, id)', 'НОВОЕ: map + spread'],
+      ['Добавить', 'addToCart(cart, id)', 'some, ! + НОВОЕ: [...cart, x]'],
+      ['Удалить', 'removeFromCart(cart, id)', 'НОВОЕ: filter без мутации'],
+      ['Сценарий покупателя', 'cart = addToCart(cart, 1)', 'let/const · всё вместе'],
     ],
   },
   solo: {
     caption: 'materials/solo · 15 минут', zip: './materials/solo.zip', files: 'index.html · script.js',
     tasks: [
-      ['Добавить песню', 'addSong(playlist, song)', 'как addToCart'],
-      ['Удалить песню', 'removeSong(playlist, id)', 'как removeFromCart'],
-      ['Лайк', 'likeSong(playlist, id)', 'как increaseQty, только likes'],
-      ['Сравнить через ===', 'list3 === playlist', 'false · false · true'],
+      ['Найти песню', 'findSong(id)', 'как findProduct'],
+      ['Строка песни', 'formatSong(song)', 'как formatItem'],
+      ['Показать плейлист', 'printPlaylist(playlist)', 'как printCart'],
+      ['Сумма лайков', 'getTotalLikes(playlist)', 'как getTotal'],
+      ['Лайк', 'likeSong(playlist, id)', 'как increaseQty'],
+      ['Добавить без повторов', 'addSong(playlist, id)', 'как addToCart'],
+      ['Удалить', 'removeSong(playlist, id)', 'как removeFromCart'],
+      ['Сценарий', 'playlist = addSong(…)', 'как в корзине'],
     ],
   },
 };
@@ -252,9 +260,9 @@ function practice(s, st) {
   const p = PRACTICE[s.practice];
   const joint = s.practice === 'joint';
   const remaining = st.remaining ?? s.minutes * 60;
-  return '<div class="practice-layout"><div class="task-list"><div class="pane-heading">ЗАДАНИЕ → ФУНКЦИЯ → ' + (joint ? 'ОТВЕТ' : 'ПОДСКАЗКА') + '<span>script.js</span></div>'
+  return '<div class="practice-layout"><div class="task-list"><div class="pane-heading">ШАГ → ФУНКЦИЯ → ' + (joint ? 'ПОВТОРЯЕМ' : 'ПОДСКАЗКА') + '<span>script.js</span></div>'
     + p.tasks.map((x, i) => '<div class="task-step pr-row"><i>' + String(i + 1).padStart(2, '0') + '</i><div class="pr-btn">' + esc(x[0]) + '</div><code>' + esc(x[1]) + '</code><div class="pr-ret">→ ' + esc(x[2]) + '</div></div>').join('')
-    + '<div class="tip">Под каждой функцией уже есть <b>console.log</b>: «Новая» и «Старая». Правильно — когда новая изменилась, а старая <b>осталась прежней</b>.</div></div>'
+    + '<div class="tip">Под каждым шагом уже есть <b>console.log</b> и комментарий «Ожидается». Шаги 1–4 — повторение, 5–7 — новая тема, 8 — всё вместе.</div></div>'
     + '<div class="task-side"><div class="goal"><span class="caps">' + esc(p.caption) + '</span><h3>' + (joint ? 'Корзина в консоли' : 'Плейлист в консоли') + '</h3>'
     + '<ol class="flow"><li>Открыть <b>index.html</b> в браузере и консоль: F12 → Console</li><li>Написать функцию в <b>script.js</b>, сохранить, F5</li><li>Сверить вывод с комментарием «Ожидается»</li></ol>'
     + '<div class="minutes" id="timerDisplay" role="timer">' + formatTime(remaining) + '</div><div class="buttons"><button class="primary" data-action="timer">' + (st.running ? 'Пауза' : 'Старт таймера') + '</button><button class="secondary" data-action="timer-reset">Сброс</button></div></div>'

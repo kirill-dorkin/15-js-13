@@ -1,80 +1,127 @@
 // ═══════════════════════════════════════════════
 //  JS 13 · Практика сами: плейлист
-//  Результат смотрим в консоли: F12 → Console.
-//  Правило: старый плейлист НЕ меняем, возвращаем НОВЫЙ.
+//  Результат — в консоли: F12 → Console. После сохранения — F5.
+//  Правило урока: старый плейлист НЕ меняем, а возвращаем НОВЫЙ.
+//  Подсказка: это те же шаги, что в корзине на совместной практике.
 // ═══════════════════════════════════════════════
 
-const playlist = [
-  { id: 1, title: "Gulzada", likes: 12 },
-  { id: 2, title: "Night City", likes: 40 },
-  { id: 3, title: "Ala-Too", likes: 7 },
+const library = [
+  { id: 1, title: "Gulzada", artist: "Mirbek" },
+  { id: 2, title: "Night City", artist: "Nova" },
+  { id: 3, title: "Ala-Too", artist: "Aibek" },
 ];
 
-const newSong = { id: 4, title: "Tengri", likes: 0 };
 
-// Помощник для консоли: плейлист → ["Gulzada ♥12", ...]
-function show(list) {
-  if (list === undefined) {
-    return "undefined — функция ничего не вернула (нет return)";
+// ── Шаг 1 · найти песню по id
+// Как findProduct: find (12)
+function findSong(id) {
+  return library.find((song) => song.id === id);
+}
+
+console.log("1.", findSong(2));  // Ожидается: объект Night City
+console.log("1.", findSong(10)); // Ожидается: undefined
+
+
+// ── Шаг 2 · строка для песни
+// Как formatItem: шаблонная строка (7)
+function formatSong(song) {
+  return `${song.title} — ${song.artist} ♥ ${song.likes}`;
+}
+
+console.log("2.", formatSong({ id: 1, title: "Gulzada", artist: "Mirbek", likes: 5 }));
+// Ожидается: Gulzada — Mirbek ♥ 5
+
+
+// ── Шаг 3 · показать плейлист
+// Как printCart: if + length (4, 8), forEach (11)
+function printPlaylist(playlist) {
+  if (playlist.length === 0) {
+    console.log("   Плейлист пуст");
+    return;
   }
-  return list.map((song) => (song === undefined ? "undefined" : song.title + " ♥" + song.likes));
+  playlist.forEach((song) => {
+    console.log("   " + formatSong(song));
+  });
 }
 
+console.log("3.");
+printPlaylist([]);
+// Ожидается: Плейлист пуст
 
-// ── 1. Добавить песню
-// addSong(playlist, song) возвращает новый массив: все песни + song в конце.
-function addSong(playlist, song) {
-  return [...playlist, song];
+
+// ── Шаг 4 · сколько всего лайков
+// Как getTotal: for...of (9)
+function getTotalLikes(playlist) {
+  let total = 0;
+  for (const song of playlist) {
+    total += song.likes;
+  }
+  return total;
 }
 
-const list1 = addSong(playlist, newSong);
-console.log("1. Новый: ", show(list1));    // Ожидается: 4 песни, Tengri последняя
-console.log("1. Старый:", show(playlist)); // Ожидается: 3 песни
+console.log("4.", getTotalLikes([{ likes: 3 }, { likes: 4 }])); // Ожидается: 7
 
 
-// ── 2. Удалить песню
-// removeSong(playlist, id) возвращает новый массив без песни с этим id.
-function removeSong(playlist, id) {
-  return playlist.filter((song) => song.id !== id);
-}
-
-const list2 = removeSong(playlist, 1);
-console.log("2. Новый: ", show(list2));    // Ожидается: ["Night City ♥40", "Ala-Too ♥7"]
-console.log("2. Старый:", show(playlist)); // Ожидается: 3 песни
-
-
-// ── 3. Лайк
-// likeSong(playlist, id) возвращает новый массив.
-// У песни с этим id — новый объект с likes + 1. Остальные — как есть.
+// ── Шаг 5 · лайк (НОВОЕ)
+// Как increaseQty: map + spread
 function likeSong(playlist, id) {
   return playlist.map((song) =>
     song.id === id ? { ...song, likes: song.likes + 1 } : song
   );
 }
 
-const list3 = likeSong(playlist, 3);
-console.log("3. Новый: ", show(list3));    // Ожидается: Ala-Too ♥8
-console.log("3. Старый:", show(playlist)); // Ожидается: Ala-Too ♥7
+const testList = [{ id: 1, title: "Gulzada", artist: "Mirbek", likes: 0 }];
+console.log("5. Новый: ", likeSong(testList, 1)); // Ожидается: likes 1
+console.log("5. Старый:", testList);              // Ожидается: likes 0 — не изменился
 
 
-// ── 4. Сравнить через ===
-// Выведите в консоль три сравнения list3 и playlist:
-//   массивы между собой           Ожидается: false
-//   песня Ala-Too (индекс 2)      Ожидается: false
-//   песня Gulzada (индекс 0)      Ожидается: true
-console.log("4. Массивы:", list3 === playlist);         // false
-console.log("4. Ala-Too:", list3[2] === playlist[2]);   // false
-console.log("4. Gulzada:", list3[0] === playlist[0]);   // true
+// ── Шаг 6 · добавить песню (НОВОЕ)
+// Как addToCart, но без повторов:
+// 1) найти песню; нет → сообщение, вернуть playlist
+// 2) уже есть (some) → сообщение «уже в плейлисте», вернуть playlist
+// 3) иначе → новый плейлист: старые + { ...song, likes: 0 }
+function addSong(playlist, id) {
+  const song = findSong(id);
 
-
-// ── Бонус
-// Напишите unlikeSong(playlist, id): likes - 1, но не меньше 0.
-// Проверьте на newSong: у новой песни 0 лайков — должно остаться 0.
-function unlikeSong(playlist, id) {
-  return playlist.map((song) =>
-    song.id === id ? { ...song, likes: song.likes > 0 ? song.likes - 1 : 0 } : song
-  );
+  if (!song) {
+    console.log(`   Песни с id ${id} нет`);
+    return playlist;
+  }
+  if (playlist.some((item) => item.id === id)) {
+    console.log(`   ${song.title} уже в плейлисте`);
+    return playlist;
+  }
+  return [...playlist, { ...song, likes: 0 }];
 }
-console.log("Бонус:", show(unlikeSong(list1, 4))); // Tengri ♥0
-console.log("Бонус:", show(unlikeSong(playlist, 1))); // Gulzada ♥11
 
+console.log("6.", addSong([], 3)); // Ожидается: [Ala-Too, likes 0]
+
+
+// ── Шаг 7 · удалить песню (НОВОЕ)
+// Как removeFromCart: filter
+function removeSong(playlist, id) {
+  return playlist.filter((song) => song.id !== id);
+}
+
+console.log("7.", removeSong(testList, 1)); // Ожидается: []
+
+
+// ── Шаг 8 · сценарий
+let playlist = [];
+playlist = addSong(playlist, 1);
+playlist = addSong(playlist, 2);
+playlist = addSong(playlist, 1);  // повтор
+playlist = addSong(playlist, 10); // нет такой
+playlist = likeSong(playlist, 2);
+playlist = likeSong(playlist, 2);
+
+const beforeRemove = playlist;
+playlist = removeSong(playlist, 1);
+
+console.log("8. До:");
+printPlaylist(beforeRemove);
+console.log("8. После:");
+printPlaylist(playlist);
+console.log("8. Всего лайков:", getTotalLikes(playlist));
+// Ожидается: «Gulzada уже в плейлисте», «Песни с id 10 нет»;
+// до — Gulzada ♥ 0, Night City ♥ 2; после — Night City ♥ 2; лайков 2

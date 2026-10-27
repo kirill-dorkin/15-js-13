@@ -1,70 +1,118 @@
 // ═══════════════════════════════════════════════
-//  JS 13 · Практика вместе: корзина
-//  Результат смотрим в консоли: F12 → Console.
-//  Правило: старую корзину НЕ меняем, возвращаем НОВУЮ.
+//  JS 13 · Практика вместе: магазин и корзина
+//  Результат — в консоли: F12 → Console. После сохранения — F5.
+//  Правило урока: старую корзину НЕ меняем, а возвращаем НОВУЮ.
 // ═══════════════════════════════════════════════
 
-const cart = [
-  { id: 1, name: "Чай", qty: 1 },
-  { id: 2, name: "Кофе", qty: 2 },
+const catalog = [
+  { id: 1, name: "Чай", price: 180, inStock: true },
+  { id: 2, name: "Кофе", price: 250, inStock: false },
+  { id: 3, name: "Сок", price: 120, inStock: true },
+  { id: 4, name: "Печенье", price: 90, inStock: true },
 ];
 
-const juice = { id: 3, name: "Сок", qty: 1 };
 
-// Помощник для консоли: корзина → ["Чай ×1", "Кофе ×2"]
-function show(list) {
-  if (list === undefined) {
-    return "undefined — функция ничего не вернула (нет return)";
-  }
-  return list.map((item) => (item === undefined ? "undefined" : item.name + " ×" + item.qty));
-}
-
-
-// ── 0. Разминка: ссылка или копия?
-// Сначала скажите ответ вслух, потом обновите страницу.
-const sameCart = cart;
-const copyCart = [...cart];
-console.log("0. sameCart === cart:", sameCart === cart); // ?
-console.log("0. copyCart === cart:", copyCart === cart); // ?
+// ── Разминка · ссылка или копия? (сегодняшняя теория)
+// Сначала ответ вслух, потом F5.
+const tea = catalog[0];
+const teaCopy = { ...tea };
+console.log("0.", tea === catalog[0]); // ?
+console.log("0.", teaCopy === tea);    // ?
+console.log("0.", teaCopy.name === tea.name); // ?
 
 
-// ── 1. Добавить товар
-// addToCart(cart, product) возвращает новый массив: все товары + product в конце.
-function addToCart(cart, product) {
+// ── Шаг 1 · найти товар по id
+// Повторяем: функции (5), стрелочные (6), find (12)
+function findProduct(id) {
 
 }
 
-const cart1 = addToCart(cart, juice);
-console.log("1. Новая: ", show(cart1)); // Ожидается: ["Чай ×1", "Кофе ×2", "Сок ×1"]
-console.log("1. Старая:", show(cart));  // Ожидается: ["Чай ×1", "Кофе ×2"]
+console.log("1.", findProduct(3));  // Ожидается: объект Сок
+console.log("1.", findProduct(99)); // Ожидается: undefined
 
 
-// ── 2. Удалить товар
-// removeFromCart(cart, id) возвращает новый массив без товара с этим id.
-function removeFromCart(cart, id) {
+// ── Шаг 2 · строка для одного товара корзины
+// Повторяем: шаблонные строки (7), арифметика (3)
+function formatItem(item) {
 
 }
 
-const cart2 = removeFromCart(cart, 2);
-console.log("2. Новая: ", show(cart2)); // Ожидается: ["Чай ×1"]
-console.log("2. Старая:", show(cart));  // Ожидается: ["Чай ×1", "Кофе ×2"]
+console.log("2.", formatItem({ id: 1, name: "Чай", price: 180, qty: 2 }));
+// Ожидается: Чай × 2 = 360 сом
 
 
-// ── 3. Увеличить количество
-// increaseQty(cart, id) возвращает новый массив.
-// У товара с этим id — новый объект с qty + 1. Остальные — как есть.
+// ── Шаг 3 · показать корзину
+// Повторяем: условия (4), length (8), forEach (11)
+function printCart(cart) {
+
+}
+
+console.log("3.");
+printCart([]);
+printCart([{ id: 3, name: "Сок", price: 120, qty: 3 }]);
+// Ожидается: Корзина пуста / Сок × 3 = 360 сом
+
+
+// ── Шаг 4 · сумма корзины
+// Повторяем: цикл for...of (9), += (3)
+function getTotal(cart) {
+
+}
+
+console.log("4.", getTotal([{ id: 1, name: "Чай", price: 180, qty: 2 }, { id: 3, name: "Сок", price: 120, qty: 1 }]));
+// Ожидается: 480
+
+
+// ── Шаг 5 · увеличить количество (НОВОЕ)
+// map + spread: нужный товар → новый объект, остальные → как есть
 function increaseQty(cart, id) {
 
 }
 
-const cart3 = increaseQty(cart, 2);
-console.log("3. Новая: ", show(cart3)); // Ожидается: ["Чай ×1", "Кофе ×3"]
-console.log("3. Старая:", show(cart));  // Ожидается: ["Чай ×1", "Кофе ×2"]
+const testCart = [{ id: 1, name: "Чай", price: 180, qty: 1 }];
+console.log("5. Новая: ", increaseQty(testCart, 1)); // Ожидается: Чай qty 2
+console.log("5. Старая:", testCart);                 // Ожидается: Чай qty 1 — не изменилась
 
 
-// ── 4. Сравнить через ===
-// Выведите в консоль три сравнения:
-//   cart3 === cart        Ожидается: false (новый массив)
-//   cart3[1] === cart[1]  Ожидается: false (Кофе — новый объект)
-//   cart3[0] === cart[0]  Ожидается: true  (Чай не меняли — тот же объект)
+// ── Шаг 6 · добавить в корзину (НОВОЕ + всё вместе)
+// Повторяем: find (12), условия и ! (4), some (12). Новое: [...cart, новый]
+// 1) найти товар через findProduct
+// 2) нет товара → сообщение, вернуть cart
+// 3) нет в наличии → сообщение, вернуть cart
+// 4) уже в корзине (some) → increaseQty
+// 5) иначе → новая корзина: старые товары + { ...product, qty: 1 }
+function addToCart(cart, id) {
 
+}
+
+console.log("6.", addToCart([], 3)); // Ожидается: [Сок qty 1]
+console.log("6.", addToCart([], 2)); // Ожидается: «Кофе: нет в наличии», потом []
+
+
+// ── Шаг 7 · удалить из корзины (НОВОЕ)
+// filter: оставляем всех, кроме удаляемого
+function removeFromCart(cart, id) {
+
+}
+
+console.log("7.", removeFromCart(testCart, 1)); // Ожидается: []
+console.log("7.", testCart);                    // Ожидается: Чай — старая на месте
+
+
+// ── Шаг 8 · сценарий покупателя: собираем всё вместе
+// Повторяем: let и const (1). Массив не меняем — меняем, на какой массив указывает переменная.
+// Напишите вместе:
+// 1. let cart = []
+// 2. Добавьте Чай (1), Кофе (2), Сок (3), снова Чай (1) и товар 99 — каждый раз cart = addToCart(cart, …)
+// 3. Сохраните корзину в const beforeRemove, затем удалите Сок
+// 4. Выведите обе корзины через printCart и сумму через getTotal
+// 5. Проверьте через !==, что это разные массивы
+// Ожидается: до — Чай × 2, Сок × 1; после — Чай × 2; итого 360; true
+
+
+// ── Бонус · скидка 10% от 500 сом
+// Повторяем: тернарный оператор (4)
+// getTotalWithDiscount(cart): если сумма >= 500 — минус 10%, иначе сумма без изменений
+
+
+// Проверка: [Чай × 3] → 486, [Чай × 2, Сок × 1] → 480
