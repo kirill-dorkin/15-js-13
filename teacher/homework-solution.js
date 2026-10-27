@@ -1,7 +1,6 @@
-// Решение · Домашнее задание: список задач
-function addTask(tasks, title) {
-  const lastId = tasks.length > 0 ? tasks[tasks.length - 1].id : 0;
-  return [...tasks, { id: lastId + 1, title, done: false }];
+// Решение · Домашнее задание
+function addTask(tasks, task) {
+  return [...tasks, task];
 }
 
 function deleteTask(tasks, id) {
@@ -20,17 +19,5 @@ function renameTask(tasks, id, title) {
   );
 }
 
-function sortByTitle(tasks) {
-  return [...tasks].sort((a, b) => a.title.localeCompare(b.title));
-}
-
-function moveUser(user, city) {
-  return { ...user, address: { ...user.address, city } };
-}
-
-function addTag(user, tag) {
-  return { ...user, tags: [...user.tags, tag] };
-}
-
-// 8. { ...user } копирует только первый уровень. В copy.tags лежит та же ссылка
-//    на массив, что и в user.tags, поэтому push меняет общий массив.
+// 5. push меняет старый массив. Мы договорились старые данные не трогать,
+//    а возвращать новый массив — так экран (и React) видит, что данные изменились.
