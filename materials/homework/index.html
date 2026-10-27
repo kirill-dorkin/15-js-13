@@ -1,237 +1,71 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Урок 13 · Домашнее задание</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Manrope,system-ui,sans-serif;background:#f5f6fb;color:#22233c;padding:28px 18px 60px;line-height:1.5}
-main{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-code,pre{font-family:'DM Mono',ui-monospace,monospace}
-h1{margin:0;font-size:clamp(28px,4vw,40px);letter-spacing:-.04em;line-height:1.1}h1 span{color:#7956f7}
-h2{margin:0 0 12px;font-size:12px;letter-spacing:1.6px;color:#858a9f;font-weight:800}
-.lead{color:#5f647c;font-weight:600;margin:6px 0 0;font-size:16px;max-width:760px}
-.card{background:#fff;border:1px solid #e8eaf2;border-radius:18px;padding:20px}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.steps div{background:#fff;border:1px solid #e8eaf2;border-radius:14px;padding:13px 14px;font-weight:700;font-size:14px}
-.steps b{display:block;color:#7956f7;font:500 12px 'DM Mono',monospace;margin-bottom:4px}
-.steps code{background:#f0edff;color:#7951db;padding:1px 5px;border-radius:5px;font-size:12.5px}
-.app{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.app h3{margin:0 0 10px;font-size:18px;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:baseline}
-.app h3 small{font-size:12px;color:#858a9f;font-weight:700}
-.list{display:flex;flex-direction:column;gap:8px}
-.row{display:flex;align-items:center;gap:10px;border:1px solid #e8eaf2;background:#f8f9fd;border-radius:12px;padding:10px 12px}
-.row .grow{flex:1;min-width:0}.row strong{display:block;font-size:15px}.row small{color:#858a9f;font-weight:700;font-size:12px}
-.row.done strong{text-decoration:line-through;color:#9aa0b5}
-.empty{border:1px dashed #d9dcea;border-radius:12px;padding:18px;text-align:center;color:#858a9f;font-weight:700}
-button{font:inherit;cursor:pointer;border-radius:9px;border:1px solid #d7ccff;background:#f0edff;color:#6542e6;font-weight:800;font-size:12.5px;padding:7px 11px;white-space:nowrap}
-button:hover{border-color:#7956f7}button.main{background:#7956f7;color:#fff;border-color:#7956f7}button.ghost{background:#fff;border-color:#e8eaf2;color:#22233c}
-input,select{font:inherit;border:1px solid #d9dcea;border-radius:9px;padding:7px 10px;font-size:14px;min-width:0}
-.total{margin-top:10px;display:flex;justify-content:space-between;font-weight:800;font-size:17px;padding:10px 4px 0;border-top:1px solid #eef0f6}
-.status{margin-top:4px;border-radius:12px;padding:12px 14px;font-weight:700;font-size:14px;background:#f8f9fd;color:#5f647c}
-.status.ok{background:#e6f8f1;color:#13704f}.status.bad{background:#fdeef0;color:#b13a4f}.status.wait{background:#fff4e3;color:#8a5a1c}
-.tasks-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
-#score{font-weight:700;color:#858a9f}#score b{font:500 26px 'DM Mono',monospace;color:#7956f7}
-.tasks{display:flex;flex-direction:column;gap:12px}
-.task{background:#fff;border:1px solid #e8eaf2;border-left:5px solid #d9dcea;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
-.task.ok{border-left-color:#2caf8b}.task.bad{border-left-color:#d86078}.task.wait{border-left-color:#e6b65d}
-.task header{display:flex;align-items:center;gap:12px}.task header h3{margin:0;flex:1;font-size:18px;letter-spacing:-.02em}
-.num{width:30px;height:30px;border-radius:9px;background:#f0edff;color:#7956f7;display:grid;place-items:center;font:500 13px 'DM Mono',monospace;flex:none}
-.badge{font-size:12.5px;font-weight:800;border-radius:8px;padding:5px 9px;background:#f3f4f8;white-space:nowrap}
-.task.ok .badge{background:#e6f8f1;color:#13704f}.task.bad .badge{background:#fdeef0;color:#b13a4f}.task.wait .badge{background:#fff4e3;color:#8a5a1c}
-.why{margin:0;font-size:15px}.why b{color:#7956f7}
-.sig{font-size:14px;font-weight:700}.sig code{background:#181b2d;color:#e3e7fa;padding:4px 9px;border-radius:7px;font-size:13.5px}
-.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
-.ba>div:not(.arrow){background:#f8f9fd;border:1px solid #e8eaf2;border-radius:11px;padding:9px 12px;min-width:0}
-.ba small{display:block;font-size:10.5px;letter-spacing:1.4px;font-weight:800;color:#858a9f;margin-bottom:4px}
-.ba pre{margin:0;font-size:12.5px;white-space:pre-wrap;color:#22233c}.ba .arrow{align-self:center;color:#7956f7;font-weight:800;font-size:20px}
-.ba mark{background:#fff1d6;color:#9a5a12;border-radius:4px;padding:0 2px}
-details{font-size:14px}summary{cursor:pointer;font-weight:800;color:#7956f7}details pre{background:#181b2d;color:#e3e7fa;border-radius:10px;padding:10px 12px;margin:8px 0 0;font-size:13px;white-space:pre-wrap}
-.check-msg{margin:0;font-size:13.5px;font-weight:700;color:#61667d}.task.bad .check-msg{color:#b13a4f}.task.ok .check-msg{color:#13704f}
-.note{font-size:13.5px;color:#61667d;font-weight:600;margin:0}
-@media(max-width:760px){.app,.steps{grid-template-columns:1fr}.ba{grid-template-columns:1fr}.ba .arrow{transform:rotate(90deg);justify-self:center}}
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Урок 13 · Домашнее задание</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<main>
-  <header>
-    <h1>Домашка · <span>список задач</span></h1>
-    <p class="lead">Те же три приёма, что на уроке, плюс один новый. Каждая кнопка вызывает функцию из <b>script.js</b>. Шпаргалка — <b>SUMMARY.md</b>.</p>
-  </header>
-  <section class="steps">
-    <div><b>1</b>Пишем функцию в <code>script.js</code></div>
-    <div><b>2</b>Сохраняем и обновляем эту страницу — <code>F5</code></div>
-    <div><b>3</b>Жмём кнопку: работает — у задания ✅</div>
-  </section>
-  <section class="card">
-    <h2>СПИСОК ЗАДАЧ</h2>
-    <div class="app">
-      <div><h3>Задачи <small>tasks</small></h3><div class="list" id="tasks"></div></div>
-      <div><h3>Новая задача</h3><div class="row"><input id="newTask" class="grow" placeholder="Что сделать?" maxlength="50" /><button class="main" data-act="add">Добавить</button></div></div>
-    </div>
-    <div class="status" id="status">Нажмите кнопку — здесь будет видно, что сделала ваша функция.</div>
-  </section>
-  <section>
-    <div class="tasks-head"><h2>ЗАДАНИЯ</h2><div id="score"></div></div>
-    <div class="tasks"><article class="task" data-task="addTask"><header><span class="num">1</span><h3>Кнопка «Добавить»</h3><span class="badge">⏳</span></header><p class="why">Вернуть новый список: все старые задачи + <code>task</code> в конце.</p><div class="sig"><code>addTask(tasks, task)</code></div><div class="ba"><div><small>БЫЛО</small><pre>[ Купить хлеб, Сделать домашку ]</pre></div><div class="arrow">→</div><div><small>ДОЛЖНО СТАТЬ</small><pre>[ Купить хлеб, Сделать домашку, <mark>Новая</mark> ]</pre></div></div><details><summary>Подсказка</summary><pre>spread</pre></details><p class="check-msg"></p></article><article class="task" data-task="deleteTask"><header><span class="num">2</span><h3>Кнопка «✕»</h3><span class="badge">⏳</span></header><p class="why">Вернуть новый список без задачи с этим <code>id</code>.</p><div class="sig"><code>deleteTask(tasks, id)</code></div><div class="ba"><div><small>БЫЛО</small><pre>[ Купить хлеб, Сделать домашку ]  ✕ у хлеба</pre></div><div class="arrow">→</div><div><small>ДОЛЖНО СТАТЬ</small><pre>[ Сделать домашку ]</pre></div></div><details><summary>Подсказка</summary><pre>filter</pre></details><p class="check-msg"></p></article><article class="task" data-task="toggleDone"><header><span class="num">3</span><h3>Галочка</h3><span class="badge">⏳</span></header><p class="why">Вернуть новый список, где у одной задачи <code>done</code> стало противоположным: true ↔ false.</p><div class="sig"><code>toggleDone(tasks, id)</code></div><div class="ba"><div><small>БЫЛО</small><pre>☐ Купить хлеб  (done: false)</pre></div><div class="arrow">→</div><div><small>ДОЛЖНО СТАТЬ</small><pre>☑ Купить хлеб  (done: <mark>true</mark>)</pre></div></div><details><summary>Подсказка</summary><pre>map + { ...task, done: !task.done }</pre></details><p class="check-msg"></p></article><article class="task" data-task="renameTask"><header><span class="num">4</span><h3>Кнопка «✎»</h3><span class="badge">⏳</span></header><p class="why">Новое: вернуть новый список, где у одной задачи новое название <code>title</code>.</p><div class="sig"><code>renameTask(tasks, id, title)</code></div><div class="ba"><div><small>БЫЛО</small><pre>Купить хлеб</pre></div><div class="arrow">→</div><div><small>ДОЛЖНО СТАТЬ</small><pre><mark>Купить молоко</mark></pre></div></div><details><summary>Подсказка</summary><pre>Как toggleDone, только меняем title.</pre></details><p class="check-msg"></p></article><article class="task"><header><span class="num">5</span><h3>Вопрос письменно</h3><span class="badge">в script.js</span></header><p class="why">Почему нельзя написать <code>tasks.push(task)</code> в addTask? Ответьте 1–2 предложениями комментарием в конце <b>script.js</b>.</p></article></div>
-  </section>
-</main>
-<script>
-/* Урок 13 · общий помощник страницы: автопроверка + вызов ваших функций из кнопок.
-   Этот файл менять не нужно. */
-(function () {
-  const results = [];
-  const cache = new WeakMap();
-  const ARR = 'Код меняет исходный массив (push, pop, shift, unshift, splice, sort, reverse или arr[i] = …).';
-  function mutation(what) { const e = new Error('Мутация! ' + what + ' Входные данные менять нельзя — верните новый массив/объект.'); e.isMutation = true; throw e; }
-  function protect(x) {
-    if (!x || typeof x !== 'object') return x;
-    if (cache.has(x)) return cache.get(x);
-    const p = new Proxy(x, {
-      get: (t, k) => protect(t[k]),
-      set: (t, k) => mutation(Array.isArray(t) ? ARR : 'Код меняет свойство «' + String(k) + '» исходного объекта.'),
-      deleteProperty: (t, k) => mutation(Array.isArray(t) ? ARR : 'Код удаляет «' + String(k) + '» из исходного объекта.'),
-      defineProperty: () => mutation('Код меняет исходные данные.'),
-    });
-    cache.set(x, p);
-    return p;
-  }
-  const clone = (x) => (x === undefined ? undefined : JSON.parse(JSON.stringify(x)));
-  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-  const fail = (msg) => { throw new Error(msg); };
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const taskNo = (name) => { const n = document.querySelector('[data-task="' + name + '"] .num'); return n ? ' Это задание ' + n.textContent + '.' : ''; };
-  const missing = (name) => 'Функция ' + name + ' не найдена. Если вы её написали — откройте консоль (F12): там ошибка в коде.';
-  const errText = (e) => (e.isMutation ? e.message : (e.constructor !== Error ? 'Ошибка в коде: ' + e.message : e.message));
+  <main>
+    <header>
+      <h1>Домашка · <span>список задач</span></h1>
+      <p class="lead">Те же приёмы, что на уроке. Весь код — в <code>script.js</code>. Шпаргалка — <code>SUMMARY.md</code>.</p>
+    </header>
 
-  // Автопроверка одного задания
-  window.check = function (fnName, run) {
-    const fn = window[fnName];
-    if (typeof fn !== 'function') { results.push({ fnName, status: 'wait', msg: missing(fnName) }); return; }
-    try {
-      const out = run(fn, { freeze: (x) => protect(clone(x)), same, fail });
-      if (out === 'wait') results.push({ fnName, status: 'wait', msg: 'Ещё не написана: функция возвращает undefined. Нужен return.' });
-      else results.push({ fnName, status: 'ok', msg: 'Готово! Проверка пройдена.' });
-    } catch (e) {
-      results.push({ fnName, status: 'bad', msg: errText(e) });
-    }
-  };
+    <section class="steps">
+      <div><b>1</b>Пишем функцию в <code>script.js</code></div>
+      <div><b>2</b>Сохраняем и обновляем страницу — <code>F5</code></div>
+      <div><b>3</b>Жмём кнопку и смотрим «Было» и «Стало»</div>
+    </section>
 
-  window.reportChecks = function () {
-    const icon = { ok: '✅', bad: '❌', wait: '⏳' };
-    const ok = results.filter((r) => r.status === 'ok').length;
-    console.log('%cПроверка: ' + ok + ' из ' + results.length, 'font-weight:bold;font-size:14px');
-    results.forEach((r) => console.log(icon[r.status] + ' ' + r.fnName + ' — ' + r.msg));
-    const score = document.getElementById('score');
-    if (score) score.innerHTML = '<b>' + ok + '</b> / ' + results.length + ' готово';
-    results.forEach((r) => {
-      const card = document.querySelector('[data-task="' + r.fnName + '"]');
-      if (!card) return;
-      card.classList.remove('ok', 'bad', 'wait'); card.classList.add(r.status);
-      card.querySelector('.badge').textContent = icon[r.status] + (r.status === 'ok' ? ' готово' : r.status === 'bad' ? ' ошибка' : ' не написано');
-      card.querySelector('.check-msg').textContent = r.msg;
-    });
-  };
+    <section class="card">
+      <div class="columns">
+        <div>
+          <h3>Новая задача</h3>
+          <div class="row"><input id="title" placeholder="Что сделать?" maxlength="50" /><button class="main" id="addButton">Добавить</button></div>
+        </div>
+        <div class="old">
+          <h3>Было <small>старый список</small></h3>
+          <div class="list" id="before"></div>
+        </div>
+        <div>
+          <h3>Стало <small>новый список</small></h3>
+          <div class="list" id="after"></div>
+        </div>
+      </div>
+      <div id="message">Если здесь пусто — в script.js ошибка. Откройте консоль: F12 → Console.</div>
+    </section>
 
-  // Вызов функции ученика из кнопки страницы. Возвращает { value } или { error, kind }
-  window.callStudent = function (fnName, args, expect) {
-    const fn = window[fnName];
-    if (typeof fn !== 'function') return { kind: 'wait', error: missing(fnName) };
-    let value;
-    try { value = fn(...args.map((a) => protect(clone(a)))); } catch (e) { return { kind: 'bad', error: errText(e) }; }
-    if (value === undefined) return { kind: 'wait', error: 'Кнопка пока не работает: ' + fnName + ' ещё пустая (возвращает undefined).' + taskNo(fnName) };
-    value = clone(value);
-    if (expect === 'array' && !Array.isArray(value)) return { kind: 'bad', error: fnName + ' должна вернуть массив.' };
-    if (expect === 'array' && value.some((x) => x == null)) return { kind: 'bad', error: fnName + ' вернула массив с undefined. В map нужен return item для остальных элементов.' };
-    if (expect === 'object' && (typeof value !== 'object' || Array.isArray(value))) return { kind: 'bad', error: fnName + ' должна вернуть объект.' };
-    return { value };
-  };
+    <section>
+      <h2>ЗАДАНИЯ</h2>
+      <div class="tasks">
+        <article class="task">
+          <h3>1. Кнопка «Добавить» — <code>addTask(tasks, task)</code></h3>
+          <p>Вернуть новый список: все старые задачи + <code>task</code> в конце.</p>
+        </article>
+        <article class="task">
+          <h3>2. Кнопка «✕» — <code>deleteTask(tasks, id)</code></h3>
+          <p>Вернуть новый список без задачи с этим <code>id</code>.</p>
+        </article>
+        <article class="task">
+          <h3>3. Кнопка «✓» — <code>toggleDone(tasks, id)</code></h3>
+          <p>Вернуть новый список, где у одной задачи <code>done</code> стало противоположным: <code>true</code> ↔ <code>false</code>.</p>
+          <details><summary>Подсказка</summary><pre>Противоположное значение: !task.done</pre></details>
+        </article>
+        <article class="task">
+          <h3>4. Кнопка «✎» — <code>renameTask(tasks, id, title)</code></h3>
+          <p>Вернуть новый список, где у одной задачи новое название <code>title</code>.</p>
+        </article>
+        <article class="task">
+          <h3>5. Вопрос письменно</h3>
+          <p>Почему в <code>addTask</code> нельзя написать <code>tasks.push(task)</code>? Ответ 1–2 предложения — комментарием в конце <code>script.js</code>.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
-  // Строка статуса под магазином
-  window.showStatus = function (res, okText) {
-    const el = document.getElementById('status');
-    if (!el) return;
-    el.className = 'status ' + (res.error ? res.kind : 'ok');
-    el.innerHTML = res.error ? (res.kind === 'wait' ? '⏳ ' : '❌ ') + esc(res.error) : '✅ ' + esc(okText);
-  };
-  window.esc = esc;
-})();
-
-</script>
-<script src="./script.js"></script>
-<script>
-(function () {
-
-  const TASKS = [{ id: 1, title: "Купить хлеб", done: false }, { id: 2, title: "Сделать домашку", done: true }];
-  check('addTask', (fn, t) => {
-    const res = fn(t.freeze(TASKS), t.freeze({ id: 3, title: "Новая", done: false }));
-    if (res === undefined) return 'wait';
-    if (!Array.isArray(res) || res.length !== 3 || res[2].id !== 3) t.fail('Должно быть 3 задачи, новая — последней.');
-  });
-  check('deleteTask', (fn, t) => {
-    const res = fn(t.freeze(TASKS), 1);
-    if (res === undefined) return 'wait';
-    if (!Array.isArray(res) || !t.same(res, [TASKS[1]])) t.fail('Без задачи id 1 должна остаться только «Сделать домашку».');
-  });
-  check('toggleDone', (fn, t) => {
-    const res = fn(t.freeze(TASKS), 1);
-    if (res === undefined) return 'wait';
-    if (!Array.isArray(res) || res.includes(undefined)) t.fail('Нужен массив без undefined: остальные задачи вернуть как есть.');
-    if (res[0].done !== true) t.fail('У задачи 1 done должно стать true.');
-    if (res[1].done !== true) t.fail('Задача 2 не должна меняться.');
-  });
-  check('renameTask', (fn, t) => {
-    const res = fn(t.freeze(TASKS), 1, 'Купить молоко');
-    if (res === undefined) return 'wait';
-    if (!Array.isArray(res) || res.includes(undefined)) t.fail('Нужен массив без undefined.');
-    if (res[0].title !== 'Купить молоко' || res[0].done !== false) t.fail('У задачи 1 новое название, done прежний.');
-    if (res[1].title !== 'Сделать домашку') t.fail('Задача 2 не должна меняться.');
-  });
-  reportChecks();
-})();
-</script>
-<script>
-(function () {
-
-  let tasks = [{ id: 1, title: "Купить хлеб", done: false }, { id: 2, title: "Сделать домашку", done: true }];
-  let nextId = 3;
-  function render() {
-    document.getElementById('tasks').innerHTML = tasks.length ? tasks.map((x) =>
-      '<div class="row ' + (x.done ? 'done' : '') + '"><input type="checkbox" data-act="toggle" data-id="' + x.id + '" ' + (x.done ? 'checked' : '') + ' /><div class="grow"><strong>' + esc(x.title) + '</strong><small>id ' + x.id + '</small></div><button class="ghost" data-act="rename" data-id="' + x.id + '">✎</button><button class="ghost" data-act="delete" data-id="' + x.id + '">✕</button></div>').join('')
-      : '<div class="empty">Задач нет</div>';
-  }
-  document.querySelector('.app').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-act]');
-    if (!b) return;
-    const id = Number(b.dataset.id), act = b.dataset.act;
-    let res, text;
-    if (act === 'add') {
-      const input = document.getElementById('newTask'), title = input.value.trim();
-      if (!title) { showStatus({ kind: 'wait', error: 'Введите текст задачи.' }); input.focus(); return; }
-      res = callStudent('addTask', [tasks, { id: nextId, title, done: false }], 'array');
-      text = 'addTask — задача добавлена.';
-      if (!res.error) { nextId++; input.value = ''; }
-    } else if (act === 'toggle') {
-      e.preventDefault();
-      res = callStudent('toggleDone', [tasks, id], 'array'); text = 'toggleDone — переключено.';
-    } else if (act === 'delete') {
-      res = callStudent('deleteTask', [tasks, id], 'array'); text = 'deleteTask — удалено.';
-    } else if (act === 'rename') {
-      const old = tasks.find((x) => x.id === id);
-      const title = (prompt('Новое название', old ? old.title : '') || '').trim();
-      if (!title) return;
-      res = callStudent('renameTask', [tasks, id, title], 'array'); text = 'renameTask — переименовано.';
-    }
-    if (!res.error) tasks = res.value;
-    showStatus(res, text);
-    render();
-  });
-  document.getElementById('newTask').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.querySelector('[data-act=add]').click(); });
-  render();
-})();
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
