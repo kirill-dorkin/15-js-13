@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Урок 13 · Домашнее задание</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./page.css" />
+</head>
+<body>
+  <main>
+    <h1>Урок 13 · <span>Домашнее задание</span></h1>
+    <p class="lead">Список задач (todo). Все функции — без мутаций. Проверка встроена.</p>
+    <section class="card"><h2>ЗАДАНИЯ</h2><ol><li><code>addTask(tasks, title)</code> — новая задача <code>{ id, title, done: false }</code>, id = последний id + 1.</li><li><code>deleteTask(tasks, id)</code> — удалить по id.</li><li><code>toggleDone(tasks, id)</code> — переключить done.</li><li><code>renameTask(tasks, id, title)</code> — новое название.</li><li><code>sortByTitle(tasks)</code> — новый массив по алфавиту, исходный не трогаем.</li><li><code>moveUser(user, city)</code> — поменять <code>user.address.city</code> (вложенный объект).</li><li><code>addTag(user, tag)</code> — добавить тег в <code>user.tags</code>.</li></ol></section>
+    <section class="card"><h2>АВТОПРОВЕРКА · обновите страницу после каждой функции</h2><div id="checks"></div></section>
+    <section class="card"><h2>ВАШ ВЫВОД (console.log)</h2><p class="lead">Откройте консоль: F12 → Console.</p></section>
+  </main>
+  <script src="./check-kit.js"></script>
+  <script src="./script.js"></script>
+  <script src="./check.js"></script>
+</body>
+</html>

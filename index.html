@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f6fb" />
+  <meta name="description" content="Ref Lab — интерактивный урок JavaScript №13: ссылки, spread и обновление данных без мутации." />
+  <title>Ref Lab — JavaScript · Урок 13</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=13-1" />
+  <script src="./app.js?v=13-1" defer></script>
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <a class="brand" href="#1" aria-label="Ref Lab — первый слайд"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-copy">ref<span>lab</span><small>JS / УРОК 13</small></span></a>
+      <div class="top-current"><span class="status-dot"></span><span id="sectionTitle">Введение</span><span class="slash">/</span><strong id="currentTitle">Ссылки и обновление данных</strong></div>
+      <nav class="top-actions" aria-label="Настройки презентации">
+        <button class="tool-btn" id="themeBtn" type="button" aria-label="Переключить тему" title="Тема (T)">◐</button>
+        <button class="tool-btn" id="notesBtn" type="button" aria-label="Заметки преподавателя" title="Заметки (N)">▤</button>
+        <button class="top-btn" id="outlineBtn" type="button" title="Все слайды (G)"><span class="grid-icon">▦</span><span>Слайды</span></button>
+        <button class="tool-btn" id="fullscreenBtn" type="button" aria-label="Полный экран" title="Полный экран (F)">⛶</button>
+      </nav>
+    </header>
+    <main class="stage" id="stage" aria-label="Слайды урока" aria-live="polite"></main>
+    <footer class="bottom">
+      <button class="nav-btn" id="prevBtn" type="button" aria-label="Предыдущий слайд">← <span>Назад</span></button>
+      <div class="progress"><div class="progress-meta"><span id="progressSection">НАЧАЛО</span><span id="slideCounter">01 / 25</span></div><div class="progress-track"><div id="progressFill"></div></div></div>
+      <span class="keyboard-help">← → для листания</span>
+      <button class="nav-btn next" id="nextBtn" type="button"><span>Дальше</span> →</button>
+    </footer>
+  </div>
+  <div class="overlay" id="outlineOverlay" hidden><div class="overlay-shade" data-close></div><aside class="side-panel" role="dialog" aria-modal="true" aria-label="Содержание"><div class="side-head"><div><small>НАВИГАЦИЯ</small><h2>Все слайды</h2></div><button class="tool-btn" data-close type="button" aria-label="Закрыть">✕</button></div><div class="outline-list" id="outlineList"></div></aside></div>
+  <div class="overlay" id="notesOverlay" hidden><div class="overlay-shade" data-close></div><aside class="side-panel" role="dialog" aria-modal="true" aria-label="Заметки преподавателя"><div class="side-head"><div><small>ТОЛЬКО ДЛЯ ПРЕПОДАВАТЕЛЯ</small><h2>Подсказки к слайду</h2></div><button class="tool-btn" data-close type="button" aria-label="Закрыть">✕</button></div><div class="notes-content" id="notesContent"></div><div class="teacher-shortcuts"><b>Клавиши</b><p>← → — слайды · G — оглавление · N — заметки · F — экран · T — тема · Esc — закрыть</p></div></aside></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
+
