@@ -1,56 +1,41 @@
-// ═══════════════════════════════════════════════
-//  JS 13 · Домашнее задание: список задач
-//  Результат — в консоли: F12 → Console. После сохранения — F5.
-//  Правило урока: старый список НЕ меняем, а возвращаем НОВЫЙ.
-//  Шпаргалка по всем приёмам — SUMMARY.md.
-// ═══════════════════════════════════════════════
+// JS 13 · Домашнее задание · решение (по шагам ТЗ из materials/homework/script.js)
 
-
-// ── Шаг 1 · показать задачи
-// Повторяем: if + length (4, 8), forEach (11), тернарный оператор (4), шаблонные строки (7)
+// ── ШАГ 1 · ПОКАЗАТЬ ЗАДАЧИ
 function printTasks(tasks) {
   if (tasks.length === 0) {
-    console.log("   Задач нет");
+    console.log("Задач нет");
     return;
   }
   tasks.forEach((task) => {
     const mark = task.done ? "☑" : "☐";
-    console.log(`   ${mark} ${task.id}. ${task.title}`);
+    console.log(`${mark} ${task.id}. ${task.title}`);
   });
 }
-
-console.log("1.");
+printTasks([]);
 printTasks([{ id: 1, title: "Купить хлеб", done: true }]);
-// Ожидается: ☑ 1. Купить хлеб
 
 
-// ── Шаг 2 · добавить задачу
-// Повторяем: trim (7), условия (4). Новое: [...tasks, новая]
-// 1) убрать пробелы по краям title (trim)
-// 2) пустая строка → сообщение, вернуть tasks
-// 3) id: если список пуст — 1, иначе id последней задачи + 1
-// 4) вернуть новый список со старыми задачами и новой { id, title, done: false }
+// ── ШАГ 2 · ДОБАВИТЬ ЗАДАЧУ
 function addTask(tasks, title) {
   const text = title.trim();
   if (text === "") {
-    console.log("   Пустую задачу добавить нельзя");
+    console.log("Пустую задачу добавить нельзя");
     return tasks;
   }
   const id = tasks.length === 0 ? 1 : tasks[tasks.length - 1].id + 1;
   return [...tasks, { id: id, title: text, done: false }];
 }
+console.log(addTask([], "  Купить хлеб  "));
+console.log(addTask([], "   "));
 
-console.log("2.", addTask([], "  Купить хлеб  ")); // Ожидается: [{ id: 1, title: "Купить хлеб", done: false }]
-console.log("2.", addTask([], "   "));             // Ожидается: сообщение, потом []
 
-
-// ── Шаг 3 · удалить задачу (filter)
+// ── ШАГ 3 · УДАЛИТЬ ЗАДАЧУ
 function deleteTask(tasks, id) {
   return tasks.filter((task) => task.id !== id);
 }
 
 
-// ── Шаг 4 · отметить выполненной / снять отметку (map + spread)
+// ── ШАГ 4 · ОТМЕТИТЬ / СНЯТЬ ОТМЕТКУ
 function toggleDone(tasks, id) {
   return tasks.map((task) =>
     task.id === id ? { ...task, done: !task.done } : task
@@ -58,7 +43,7 @@ function toggleDone(tasks, id) {
 }
 
 
-// ── Шаг 5 · переименовать (map + spread)
+// ── ШАГ 5 · ПЕРЕИМЕНОВАТЬ
 function renameTask(tasks, id, title) {
   return tasks.map((task) =>
     task.id === id ? { ...task, title: title } : task
@@ -66,8 +51,7 @@ function renameTask(tasks, id, title) {
 }
 
 
-// ── Шаг 6 · сколько задач выполнено
-// Повторяем: for...of (9) или filter + length (11)
+// ── ШАГ 6 · СКОЛЬКО ВЫПОЛНЕНО
 function countDone(tasks) {
   let count = 0;
   for (const task of tasks) {
@@ -79,13 +63,16 @@ function countDone(tasks) {
 }
 
 
-// ── Шаг 7 · все ли задачи выполнены (every, урок 12)
+// ── ШАГ 7 · ВСЁ ЛИ ВЫПОЛНЕНО
 function allDone(tasks) {
   return tasks.length > 0 && tasks.every((task) => task.done);
 }
+console.log(allDone([]));
+console.log(allDone([{ done: true }]));
+console.log(allDone([{ done: true }, { done: false }]));
 
 
-// ── Шаг 8 · сценарий
+// ── ШАГ 8 · СЦЕНАРИЙ
 let tasks = [];
 tasks = addTask(tasks, "Купить хлеб");
 tasks = addTask(tasks, "  Сделать домашку ");
@@ -97,21 +84,15 @@ tasks = renameTask(tasks, 3, "Позвонить бабушке");
 const beforeDelete = tasks;
 tasks = deleteTask(tasks, 2);
 
-console.log("8. До:");
+console.log("До:");
 printTasks(beforeDelete);
-console.log("8. После:");
+console.log("После:");
 printTasks(tasks);
-console.log("8. Выполнено:", countDone(tasks), "из", tasks.length);
-console.log("8. Все выполнены:", allDone(tasks));
-console.log("8. Старый список цел:", beforeDelete.length === 3);
-// Ожидается:
-//   Пустую задачу добавить нельзя
-// До:    ☑ 1. Купить хлеб / ☐ 2. Сделать домашку / ☐ 3. Позвонить бабушке
-// После: ☑ 1. Купить хлеб / ☐ 3. Позвонить бабушке
-// Выполнено: 1 из 2 · Все выполнены: false · Старый список цел: true
+console.log("Выполнено:", countDone(tasks), "из", tasks.length);
+console.log("Все выполнены:", allDone(tasks));
+console.log("В beforeDelete задач:", beforeDelete.length);
 
 
-// ── Шаг 9 · ответьте комментарием
-// Почему после строки tasks = deleteTask(tasks, 2) в beforeDelete всё ещё 3 задачи?
-// Ответ: deleteTask не меняет старый массив, а возвращает новый. В tasks теперь ссылка
-// на новый массив, а beforeDelete по-прежнему указывает на старый.
+// ── ШАГ 9
+// Ответ: deleteTask не меняет старый массив, а возвращает новый. Переменная tasks
+// теперь указывает на новый массив, а beforeDelete — по-прежнему на старый.

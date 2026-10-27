@@ -1,27 +1,45 @@
 # Урок 13 · Совместная практика — сценарий для преподавателя
 
-Файл учеников: `materials/joint/script.js`. Полное решение: `teacher/joint-solution.js`.
+Файл учеников: `materials/joint/script.js` — в нём **нет кода**, только ТЗ в комментариях: что сделать, зачем, что повторяем и что должно получиться в консоли. Весь код пишем вместе с нуля под каждым пунктом.
+Полное решение: `teacher/joint-solution.js`.
 Время: 25 минут. На проекторе: VS Code слева, браузер с консолью (F12) справа.
 
-Идея: собираем магазин в консоли. Каждый шаг повторяет 1–2 прошлых урока, а с шага 5 добавляется новая тема — обновление без мутации. В конце всё складывается в один сценарий покупателя.
+Порядок на каждом шаге: прочитать ТЗ вслух → спросить группу «как будем делать?» → писать код → F5 → сверить консоль с «Проверка».
+
+Идея: собираем магазин в консоли. Каждый шаг повторяет 1–2 прошлых урока, с шага 6 добавляется новая тема — обновление без мутации. В конце всё складывается в один сценарий покупателя.
 
 | Шаг | Что пишем | Повторяем | Мин |
 |---|---|---|---|
-| 0 | Разминка: `===` | ссылки (сегодня) | 2 |
-| 1 | `findProduct(id)` | функции, стрелки, find | 2 |
-| 2 | `formatItem(item)` | шаблонные строки, арифметика | 2 |
-| 3 | `printCart(cart)` | if, length, forEach | 3 |
-| 4 | `getTotal(cart)` | for...of, += | 3 |
-| 5 | `increaseQty(cart, id)` | **новое**: map + spread | 3 |
-| 6 | `addToCart(cart, id)` | find, !, some + **новое**: `[...cart, x]` | 5 |
-| 7 | `removeFromCart(cart, id)` | **новое**: filter | 1 |
-| 8 | Сценарий покупателя | let/const, всё вместе | 4 |
+| 0 | `const catalog = [...]` | массив объектов (8, 10) | 2 |
+| 1 | Разминка: `===` | ссылки (сегодня) | 2 |
+| 2 | `findProduct(id)` | функции, стрелки, find | 2 |
+| 3 | `formatItem(item)` | шаблонные строки, арифметика | 2 |
+| 4 | `printCart(cart)` | if, length, forEach | 2 |
+| 5 | `getTotal(cart)` | for...of, += | 2 |
+| 6 | `increaseQty(cart, id)` | **новое**: map + spread | 3 |
+| 7 | `addToCart(cart, id)` | find, !, some + **новое**: `[...cart, x]` | 5 |
+| 8 | `removeFromCart(cart, id)` | **новое**: filter | 1 |
+| 9 | Сценарий покупателя | let/const, всё вместе | 4 |
 
 ---
 
-## 0 · Разминка (2 мин)
+## 0 · Данные (2 мин)
 
-Код уже в файле. **Не обновляйте страницу**: сначала пусть группа ответит вслух на каждую строку.
+```js
+const catalog = [
+  { id: 1, name: "Чай", price: 180, inStock: true },
+  { id: 2, name: "Кофе", price: 250, inStock: false },
+  { id: 3, name: "Сок", price: 120, inStock: true },
+  { id: 4, name: "Печенье", price: 90, inStock: true },
+];
+console.log(catalog);
+```
+
+Спросить: «Почему const?» → переменная всегда указывает на один и тот же каталог, и мы его не меняем. «Какого типа id и inStock?» → number и boolean (урок 2).
+
+## 1 · Разминка (2 мин)
+
+Пишем три console.log. **Перед F5** пусть группа ответит вслух на каждую строку.
 
 ```js
 const tea = catalog[0];
@@ -33,7 +51,7 @@ teaCopy.name === tea.name   // true  — строки сравниваются �
 
 Спросить: «Почему третья строка — true, а вторая — false?» Ответ: объекты сравниваются по ссылке, строки — по значению.
 
-## 1 · findProduct (2 мин)
+## 2 · findProduct (2 мин)
 
 ```js
 function findProduct(id) {
@@ -43,7 +61,7 @@ function findProduct(id) {
 
 Спросить: «Что вернёт find, если ничего не нашёл?» → `undefined` (урок 12).
 
-## 2 · formatItem (2 мин)
+## 3 · formatItem (2 мин)
 
 ```js
 function formatItem(item) {
@@ -53,23 +71,23 @@ function formatItem(item) {
 
 Спросить: «Какие кавычки нужны для `${}`?» → обратные (урок 7).
 
-## 3 · printCart (3 мин)
+## 4 · printCart (3 мин)
 
 ```js
 function printCart(cart) {
   if (cart.length === 0) {
-    console.log("   Корзина пуста");
+    console.log("Корзина пуста");
     return;
   }
   cart.forEach((item) => {
-    console.log("   " + formatItem(item));
+    console.log(formatItem(item));
   });
 }
 ```
 
 Спросить: «Зачем `return` после "Корзина пуста"?» → чтобы дальше не выполнялось. Заметьте: функция ничего не возвращает — она только печатает.
 
-## 4 · getTotal (3 мин)
+## 5 · getTotal (3 мин)
 
 ```js
 function getTotal(cart) {
@@ -83,7 +101,7 @@ function getTotal(cart) {
 
 Спросить: «Почему `total` — let, а не const?» → значение меняется в цикле.
 
-## 5 · increaseQty — новое (3 мин)
+## 6 · increaseQty — новое (3 мин)
 
 ```js
 function increaseQty(cart, id) {
@@ -94,11 +112,17 @@ function increaseQty(cart, id) {
 ```
 
 Проговорить по частям: map — новый массив; совпал id → новый объект `{ ...item, qty: … }`; не совпал → тот же item.
-Смотрим в консоль: «Новая» — qty 2, «Старая» — qty 1.
 
-**Покажите ошибку специально:** замените на `item.qty++; return item;` — в консоли «Старая» тоже станет qty 2. Это мутация: поменяли старый объект по ссылке. Верните правильный вариант.
+Проверка из ТЗ — создаём testCart и выводим обе корзины:
+```js
+const testCart = [{ id: 1, name: "Чай", price: 180, qty: 1 }];
+console.log(increaseQty(testCart, 1)); // Чай qty 2
+console.log(testCart);                 // Чай qty 1
+```
 
-## 6 · addToCart — всё вместе (5 мин)
+**Покажите ошибку специально:** замените на `item.qty++; return item;` — testCart тоже станет qty 2. Это мутация: поменяли старый объект по ссылке. Верните правильный вариант.
+
+## 7 · addToCart — всё вместе (5 мин)
 
 Сначала проговорите план (он в комментарии над функцией), потом пишите по пунктам:
 
@@ -107,11 +131,11 @@ function addToCart(cart, id) {
   const product = findProduct(id);
 
   if (!product) {
-    console.log(`   Товара с id ${id} нет`);
+    console.log(`Товара с id ${id} нет`);
     return cart;
   }
   if (!product.inStock) {
-    console.log(`   ${product.name}: нет в наличии`);
+    console.log(`${product.name} нет в наличии`);
     return cart;
   }
   if (cart.some((item) => item.id === id)) {
@@ -127,7 +151,7 @@ function addToCart(cart, id) {
 - «Почему не `cart.push(...)`?» → push меняет старую корзину. Нам нужна новая.
 - «Зачем `{ ...product, qty: 1 }`, а не просто product?» → product из каталога, у него нет qty. И если добавить к нему qty, испортится каталог.
 
-## 7 · removeFromCart (1 мин)
+## 8 · removeFromCart (1 мин)
 
 ```js
 function removeFromCart(cart, id) {
@@ -137,7 +161,7 @@ function removeFromCart(cart, id) {
 
 «Мы не удаляем — мы оставляем всех, кроме одного».
 
-## 8 · Сценарий покупателя (4 мин)
+## 9 · Сценарий покупателя (4 мин)
 
 Пишем внизу файла вместе:
 
@@ -152,25 +176,25 @@ cart = addToCart(cart, 99); // нет такого товара
 const beforeRemove = cart;
 cart = removeFromCart(cart, 3);
 
-console.log("8. До удаления:");
+console.log("До удаления:");
 printCart(beforeRemove);
-console.log("8. После удаления:");
+console.log("После удаления:");
 printCart(cart);
-console.log("8. Итого:", getTotal(cart), "сом");
-console.log("8. Это разные массивы:", beforeRemove !== cart);
+console.log("Итого:", getTotal(cart));
+console.log("beforeRemove !== cart →", beforeRemove !== cart);
 ```
 
 Ожидается в консоли:
 ```
-   Кофе: нет в наличии
-   Товара с id 99 нет
-8. До удаления:
-   Чай × 2 = 360 сом
-   Сок × 1 = 120 сом
-8. После удаления:
-   Чай × 2 = 360 сом
-8. Итого: 360 сом
-8. Это разные массивы: true
+Кофе нет в наличии
+Товара с id 99 нет
+До удаления:
+Чай × 2 = 360 сом
+Сок × 1 = 120 сом
+После удаления:
+Чай × 2 = 360 сом
+Итого: 360
+beforeRemove !== cart → true
 ```
 
 Главный вопрос урока: **«Почему `cart` — let, если мы договорились ничего не менять?»** Массивы мы не меняем. Меняется только то, на какой массив указывает переменная: каждый раз это новый массив. Старая корзина `beforeRemove` осталась целой.

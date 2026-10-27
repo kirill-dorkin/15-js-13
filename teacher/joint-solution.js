@@ -1,66 +1,53 @@
-// ═══════════════════════════════════════════════
-//  JS 13 · Практика вместе: магазин и корзина
-//  Результат — в консоли: F12 → Console. После сохранения — F5.
-//  Правило урока: старую корзину НЕ меняем, а возвращаем НОВУЮ.
-// ═══════════════════════════════════════════════
+// JS 13 · Практика вместе · решение (по шагам ТЗ из materials/joint/script.js)
 
+// ── ШАГ 0 · ДАННЫЕ
 const catalog = [
   { id: 1, name: "Чай", price: 180, inStock: true },
   { id: 2, name: "Кофе", price: 250, inStock: false },
   { id: 3, name: "Сок", price: 120, inStock: true },
   { id: 4, name: "Печенье", price: 90, inStock: true },
 ];
+console.log(catalog);
 
 
-// ── Разминка · ссылка или копия? (сегодняшняя теория)
-// Сначала ответ вслух, потом F5.
+// ── ШАГ 1 · РАЗМИНКА
 const tea = catalog[0];
 const teaCopy = { ...tea };
-console.log("0.", tea === catalog[0]); // ?
-console.log("0.", teaCopy === tea);    // ?
-console.log("0.", teaCopy.name === tea.name); // ?
+console.log(tea === catalog[0]);       // true  — та же ссылка
+console.log(teaCopy === tea);          // false — spread создал новый объект
+console.log(teaCopy.name === tea.name); // true  — строки сравниваются по значению
 
 
-// ── Шаг 1 · найти товар по id
-// Повторяем: функции (5), стрелочные (6), find (12)
+// ── ШАГ 2 · НАЙТИ ТОВАР
 function findProduct(id) {
   return catalog.find((product) => product.id === id);
 }
+console.log(findProduct(3));
+console.log(findProduct(99));
 
-console.log("1.", findProduct(3));  // Ожидается: объект Сок
-console.log("1.", findProduct(99)); // Ожидается: undefined
 
-
-// ── Шаг 2 · строка для одного товара корзины
-// Повторяем: шаблонные строки (7), арифметика (3)
+// ── ШАГ 3 · СТРОКА ДЛЯ ОДНОГО ТОВАРА
 function formatItem(item) {
   return `${item.name} × ${item.qty} = ${item.price * item.qty} сом`;
 }
-
-console.log("2.", formatItem({ id: 1, name: "Чай", price: 180, qty: 2 }));
-// Ожидается: Чай × 2 = 360 сом
+console.log(formatItem({ id: 1, name: "Чай", price: 180, qty: 2 }));
 
 
-// ── Шаг 3 · показать корзину
-// Повторяем: условия (4), length (8), forEach (11)
+// ── ШАГ 4 · ПОКАЗАТЬ КОРЗИНУ
 function printCart(cart) {
   if (cart.length === 0) {
-    console.log("   Корзина пуста");
+    console.log("Корзина пуста");
     return;
   }
   cart.forEach((item) => {
-    console.log("   " + formatItem(item));
+    console.log(formatItem(item));
   });
 }
-
-console.log("3.");
 printCart([]);
 printCart([{ id: 3, name: "Сок", price: 120, qty: 3 }]);
-// Ожидается: Корзина пуста / Сок × 3 = 360 сом
 
 
-// ── Шаг 4 · сумма корзины
-// Повторяем: цикл for...of (9), += (3)
+// ── ШАГ 5 · СУММА КОРЗИНЫ
 function getTotal(cart) {
   let total = 0;
   for (const item of cart) {
@@ -68,35 +55,30 @@ function getTotal(cart) {
   }
   return total;
 }
-
-console.log("4.", getTotal([{ id: 1, name: "Чай", price: 180, qty: 2 }, { id: 3, name: "Сок", price: 120, qty: 1 }]));
-// Ожидается: 480
+console.log(getTotal([{ name: "Чай", price: 180, qty: 2 }, { name: "Сок", price: 120, qty: 1 }]));
 
 
-// ── Шаг 5 · увеличить количество (НОВОЕ)
-// map + spread: нужный товар → новый объект, остальные → как есть
+// ── ШАГ 6 · УВЕЛИЧИТЬ КОЛИЧЕСТВО
 function increaseQty(cart, id) {
   return cart.map((item) =>
     item.id === id ? { ...item, qty: item.qty + 1 } : item
   );
 }
-
 const testCart = [{ id: 1, name: "Чай", price: 180, qty: 1 }];
-console.log("5. Новая: ", increaseQty(testCart, 1)); // Ожидается: Чай qty 2
-console.log("5. Старая:", testCart);                 // Ожидается: Чай qty 1 — не изменилась
+console.log(increaseQty(testCart, 1));
+console.log(testCart);
 
 
-// ── Шаг 6 · добавить в корзину (НОВОЕ + всё вместе)
-// Повторяем: find (12), условия и ! (4), some (12). Новое: [...cart, новый]
+// ── ШАГ 7 · ДОБАВИТЬ В КОРЗИНУ
 function addToCart(cart, id) {
   const product = findProduct(id);
 
   if (!product) {
-    console.log(`   Товара с id ${id} нет`);
+    console.log(`Товара с id ${id} нет`);
     return cart;
   }
   if (!product.inStock) {
-    console.log(`   ${product.name}: нет в наличии`);
+    console.log(`${product.name} нет в наличии`);
     return cart;
   }
   if (cart.some((item) => item.id === id)) {
@@ -104,48 +86,43 @@ function addToCart(cart, id) {
   }
   return [...cart, { ...product, qty: 1 }];
 }
+console.log(addToCart([], 3));
+console.log(addToCart([], 2));
 
-console.log("6.", addToCart([], 3)); // Ожидается: [Сок qty 1]
-console.log("6.", addToCart([], 2)); // Ожидается: «Кофе: нет в наличии», потом []
 
-
-// ── Шаг 7 · удалить из корзины (НОВОЕ)
-// filter: оставляем всех, кроме удаляемого
+// ── ШАГ 8 · УДАЛИТЬ ИЗ КОРЗИНЫ
 function removeFromCart(cart, id) {
   return cart.filter((item) => item.id !== id);
 }
+console.log(removeFromCart(testCart, 1));
+console.log(testCart);
 
-console.log("7.", removeFromCart(testCart, 1)); // Ожидается: []
-console.log("7.", testCart);                    // Ожидается: Чай — старая на месте
 
-
-// ── Шаг 8 · сценарий покупателя: собираем всё вместе
-// Повторяем: let и const (1). Массив не меняем — меняем, на какой массив указывает переменная.
+// ── ШАГ 9 · СЦЕНАРИЙ ПОКУПАТЕЛЯ
 let cart = [];
-cart = addToCart(cart, 1);  // Чай
-cart = addToCart(cart, 2);  // Кофе — нет в наличии
-cart = addToCart(cart, 3);  // Сок
-cart = addToCart(cart, 1);  // Чай ещё раз → qty 2
-cart = addToCart(cart, 99); // нет такого товара
+cart = addToCart(cart, 1);
+cart = addToCart(cart, 2);
+cart = addToCart(cart, 3);
+cart = addToCart(cart, 1);
+cart = addToCart(cart, 99);
 
 const beforeRemove = cart;
 cart = removeFromCart(cart, 3);
 
-console.log("8. До удаления:");
+console.log("До удаления:");
 printCart(beforeRemove);
-console.log("8. После удаления:");
+console.log("После удаления:");
 printCart(cart);
-console.log("8. Итого:", getTotal(cart), "сом");
-console.log("8. Это разные массивы:", beforeRemove !== cart);
-// Ожидается: до — Чай × 2, Сок × 1; после — Чай × 2; итого 360; true
+console.log("Итого:", getTotal(cart));
+console.log("beforeRemove !== cart →", beforeRemove !== cart);
+// cart — let, потому что переменная указывает на НОВЫЙ массив после каждой операции.
+// Сами массивы мы не меняем: beforeRemove остался целым.
 
 
-// ── Бонус · скидка 10% от 500 сом
-// Повторяем: тернарный оператор (4)
+// ── БОНУС · СКИДКА
 function getTotalWithDiscount(cart) {
   const total = getTotal(cart);
   return total >= 500 ? total - total / 10 : total;
 }
-
-console.log("Бонус:", getTotalWithDiscount(beforeRemove)); // 480 → без скидки: 480
-console.log("Бонус:", getTotalWithDiscount([{ id: 1, name: "Чай", price: 180, qty: 3 }])); // 540 → 486
+console.log(getTotalWithDiscount([{ name: "Чай", price: 180, qty: 3 }]));                                   // 486
+console.log(getTotalWithDiscount([{ name: "Чай", price: 180, qty: 2 }, { name: "Сок", price: 120, qty: 1 }])); // 480
