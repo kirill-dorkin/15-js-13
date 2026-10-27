@@ -1,73 +1,27 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Урок 13 · Корзина</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <title>Практика JS 13 · Корзина</title>
+  <style>
+    body { font: 19px/1.6 system-ui, sans-serif; max-width: 720px; margin: 50px auto; padding: 24px; background: #f5f3fc; color: #252038; }
+    h1 { font-size: 30px; margin: 0 0 16px; }
+    code { color: #7054d6; background: #ece7ff; padding: 1px 6px; border-radius: 6px; }
+    li { margin-bottom: 6px; }
+    .rule { background: #fff; border-left: 5px solid #7956f7; padding: 12px 16px; border-radius: 10px; font-weight: 600; }
+  </style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1>Вместе · <span>корзина магазина</span></h1>
-      <p class="lead">Весь код этой страницы — в <code>script.js</code>. Мы пишем три функции. Каждая — одна кнопка.</p>
-    </header>
-
-    <section class="steps">
-      <div><b>1</b>Пишем функцию в <code>script.js</code></div>
-      <div><b>2</b>Сохраняем и обновляем страницу — <code>F5</code></div>
-      <div><b>3</b>Жмём кнопку и смотрим «Было» и «Стало»</div>
-    </section>
-
-    <section class="card">
-      <div class="columns">
-        <div>
-          <h3>Каталог</h3>
-          <div class="list" id="catalog"></div>
-        </div>
-        <div class="old">
-          <h3>Было <small>старая корзина</small></h3>
-          <div class="list" id="before"></div>
-        </div>
-        <div>
-          <h3>Стало <small>новая корзина</small></h3>
-          <div class="list" id="after"></div>
-          <div class="total" id="total"></div>
-        </div>
-      </div>
-      <div id="message">Если здесь пусто — в script.js ошибка. Откройте консоль: F12 → Console.</div>
-    </section>
-
-    <section>
-      <h2>ЗАДАНИЯ</h2>
-      <div class="tasks">
-        <article class="task">
-          <h3>1. Кнопка «В корзину» — <code>addToCart(cart, product)</code></h3>
-          <p>Вернуть новую корзину: все старые товары + <code>product</code> в конце.</p>
-          <p>Было <code>[Чай, Кофе]</code> → стало <code>[Чай, Кофе, Сок]</code></p>
-          <details><summary>Подсказка</summary><pre>return [...cart, product];</pre></details>
-        </article>
-        <article class="task">
-          <h3>2. Кнопка «✕» — <code>removeFromCart(cart, id)</code></h3>
-          <p>Вернуть новую корзину без товара с этим <code>id</code>.</p>
-          <p>Было <code>[Чай, Кофе]</code>, ✕ у Кофе → стало <code>[Чай]</code></p>
-          <details><summary>Подсказка</summary><pre>filter — оставляем всех, у кого id не равен удаляемому:
-return cart.filter((item) => item.id !== id);</pre></details>
-        </article>
-        <article class="task">
-          <h3>3. Кнопка «+» — <code>increaseQty(cart, id)</code></h3>
-          <p>Вернуть новую корзину, где у одного товара <code>qty</code> на 1 больше. Остальные — как были.</p>
-          <p>Было <code>[Чай ×1, Кофе ×2]</code>, + у Кофе → стало <code>[Чай ×1, Кофе ×3]</code></p>
-          <details><summary>Подсказка</summary><pre>map — нужный товар меняем на новый объект, остальные возвращаем как есть:
-return cart.map((item) =>
-  item.id === id ? { ...item, qty: item.qty + 1 } : item
-);</pre></details>
-        </article>
-      </div>
-    </section>
-  </main>
-
+  <h1>Ref Lab · Практика вместе</h1>
+  <ol>
+    <li>Откройте <code>script.js</code> в VS Code.</li>
+    <li>Откройте консоль браузера: <code>F12</code> → <b>Console</b>.</li>
+    <li>Напишите функцию, сохраните файл и обновите страницу (<code>F5</code>).</li>
+    <li>Сравните вывод в консоли с тем, что написано после «Ожидается».</li>
+  </ol>
+  <p class="rule">Правило урока: старые данные не меняем — функция возвращает новый массив.</p>
+  <p>Задания: добавить товар, удалить товар, увеличить количество, сравнить через <code>===</code>.</p>
   <script src="script.js"></script>
 </body>
 </html>

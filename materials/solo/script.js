@@ -1,120 +1,68 @@
-// ═════════════════════════════════════════════
-//  Урок 13 · Плейлист
-//  Весь код страницы здесь. Вы пишете только раздел 2.
-// ═════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  JS 13 · Практика сами: плейлист
+//  Результат смотрим в консоли: F12 → Console.
+//  Правило: старый плейлист НЕ меняем, возвращаем НОВЫЙ.
+// ═══════════════════════════════════════════════
 
-
-// ─── 1. ДАННЫЕ ───────────────────────────────
-
-let playlist = [
+const playlist = [
   { id: 1, title: "Gulzada", likes: 12 },
   { id: 2, title: "Night City", likes: 40 },
   { id: 3, title: "Ala-Too", likes: 7 },
 ];
 
-let oldPlaylist = playlist;                  // плейлист до последнего нажатия
-let playlistText = JSON.stringify(playlist); // снимок — чтобы заметить, если его испортили
-let nextId = 4;
+const newSong = { id: 4, title: "Tengri", likes: 0 };
+
+// Помощник для консоли: плейлист → ["Gulzada ♥12", ...]
+function show(list) {
+  if (list === undefined) {
+    return "undefined — функция ничего не вернула (нет return)";
+  }
+  return list.map((song) => (song === undefined ? "undefined" : song.title + " ♥" + song.likes));
+}
 
 
-// ─── 2. ВАШИ ФУНКЦИИ ─────────────────────────
-// Правило: старый плейлист НЕ меняем. Возвращаем НОВЫЙ.
-
-// «Добавить»: новый плейлист + song в конце
+// ── 1. Добавить песню
+// addSong(playlist, song) возвращает новый массив: все песни + song в конце.
 function addSong(playlist, song) {
 
 }
 
-// «✕»: новый плейлист без песни с этим id
+const list1 = addSong(playlist, newSong);
+console.log("1. Новый: ", show(list1));    // Ожидается: 4 песни, Tengri последняя
+console.log("1. Старый:", show(playlist)); // Ожидается: 3 песни
+
+
+// ── 2. Удалить песню
+// removeSong(playlist, id) возвращает новый массив без песни с этим id.
 function removeSong(playlist, id) {
 
 }
 
-// «♥»: новый плейлист, где у песни с этим id likes + 1
+const list2 = removeSong(playlist, 1);
+console.log("2. Новый: ", show(list2));    // Ожидается: ["Night City ♥40", "Ala-Too ♥7"]
+console.log("2. Старый:", show(playlist)); // Ожидается: 3 песни
+
+
+// ── 3. Лайк
+// likeSong(playlist, id) возвращает новый массив.
+// У песни с этим id — новый объект с likes + 1. Остальные — как есть.
 function likeSong(playlist, id) {
 
 }
 
-
-// ─── 3. КНОПКИ ───────────────────────────────
-// Нажали кнопку → вызвали вашу функцию → получили новый плейлист.
-
-function clickAdd() {
-  const input = document.querySelector("#title");
-  const title = input.value.trim();
-  if (title === "") {
-    showMessage("Введите название песни.", "");
-    return;
-  }
-  const song = { id: nextId, title: title, likes: 0 };
-  if (save(addSong(playlist, song))) {
-    nextId = nextId + 1;
-    input.value = "";
-  }
-}
-
-function clickRemove(id) {
-  save(removeSong(playlist, id));
-}
-
-function clickLike(id) {
-  save(likeSong(playlist, id));
-}
-
-// Запоминаем новый плейлист и проверяем, что старый не испорчен
-function save(newPlaylist) {
-  if (newPlaylist === undefined) {
-    showMessage("⏳ Функция пока пустая — нужен return.", "");
-    return false;
-  }
-
-  oldPlaylist = playlist;
-  playlist = newPlaylist;
-
-  if (oldPlaylist === newPlaylist) {
-    showMessage("❌ Вернулся ТОТ ЖЕ массив. Нужен новый: [...playlist], filter или map.", "bad");
-  } else if (JSON.stringify(oldPlaylist) !== playlistText) {
-    showMessage("❌ Старый плейлист изменился — это мутация. Посмотрите на «Было».", "bad");
-  } else if (newPlaylist.includes(undefined)) {
-    showMessage("❌ В новом плейлисте undefined — в map нужно вернуть и остальные песни.", "bad");
-  } else {
-    showMessage("✅ Получили новый плейлист. Старый не изменился.", "ok");
-  }
-  playlistText = JSON.stringify(playlist);
-  render();
-  return true;
-}
+const list3 = likeSong(playlist, 3);
+console.log("3. Новый: ", show(list3));    // Ожидается: Ala-Too ♥8
+console.log("3. Старый:", show(playlist)); // Ожидается: Ala-Too ♥7
 
 
-// ─── 4. ПОКАЗ НА ЭКРАНЕ ──────────────────────
+// ── 4. Сравнить через ===
+// Выведите в консоль три сравнения list3 и playlist:
+//   массивы между собой           Ожидается: false
+//   песня Ala-Too (индекс 2)      Ожидается: false
+//   песня Gulzada (индекс 0)      Ожидается: true
 
-function showPlaylist(list, withButtons) {
-  if (list.length === 0) {
-    return `<div class="empty">Пусто</div>`;
-  }
-  return list.map((song) => {
-    if (song === undefined) {
-      return `<div class="row bad">undefined — в map забыли вернуть песню</div>`;
-    }
-    const buttons = withButtons
-      ? `<button onclick="clickLike(${song.id})">♥ ${song.likes}</button>
-         <button onclick="clickRemove(${song.id})">✕</button>`
-      : `<small>♥ ${song.likes}</small>`;
-    return `<div class="row"><span>${song.title}</span>${buttons}</div>`;
-  }).join("");
-}
 
-function render() {
-  document.querySelector("#before").innerHTML = showPlaylist(oldPlaylist, false);
-  document.querySelector("#after").innerHTML = showPlaylist(playlist, true);
-}
+// ── Бонус
+// Напишите unlikeSong(playlist, id): likes - 1, но не меньше 0.
+// Проверьте на newSong: у новой песни 0 лайков — должно остаться 0.
 
-function showMessage(text, type) {
-  const box = document.querySelector("#message");
-  box.textContent = text;
-  box.className = type;
-}
-
-document.querySelector("#addButton").addEventListener("click", clickAdd);
-render();
-showMessage("Нажмите любую кнопку.", "");

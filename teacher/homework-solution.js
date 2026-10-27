@@ -1,141 +1,84 @@
-// ═════════════════════════════════════════════
-//  Урок 13 · Домашнее задание: список задач
-//  Весь код страницы здесь. Вы пишете только раздел 2.
-// ═════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  JS 13 · Домашнее задание: список задач
+//  Результат смотрим в консоли: F12 → Console.
+//  Правило: старый список НЕ меняем, возвращаем НОВЫЙ.
+//  Шпаргалка по всем приёмам — SUMMARY.md.
+// ═══════════════════════════════════════════════
 
-
-// ─── 1. ДАННЫЕ ───────────────────────────────
-
-let tasks = [
+const tasks = [
   { id: 1, title: "Купить хлеб", done: false },
   { id: 2, title: "Сделать домашку", done: true },
 ];
 
-let oldTasks = tasks;                  // список до последнего нажатия
-let tasksText = JSON.stringify(tasks); // снимок — чтобы заметить, если его испортили
-let nextId = 3;
+// Помощник для консоли: список → ["☐ Купить хлеб", "☑ Сделать домашку"]
+function show(list) {
+  if (list === undefined) {
+    return "undefined — функция ничего не вернула (нет return)";
+  }
+  return list.map((task) => {
+    if (task === undefined) {
+      return "undefined";
+    }
+    return (task.done ? "☑ " : "☐ ") + task.title;
+  });
+}
 
 
-// ─── 2. ВАШИ ФУНКЦИИ ─────────────────────────
-// Правило: старый список НЕ меняем. Возвращаем НОВЫЙ.
-
-// 1. «Добавить»: новый список + task в конце
+// ── 1. addTask(tasks, task) — новый список + task в конце
 function addTask(tasks, task) {
   return [...tasks, task];
 }
 
-// 2. «✕»: новый список без задачи с этим id
+console.log("1.", show(addTask(tasks, { id: 3, title: "Позвонить маме", done: false })));
+// Ожидается: ["☐ Купить хлеб", "☑ Сделать домашку", "☐ Позвонить маме"]
+
+
+// ── 2. deleteTask(tasks, id) — новый список без задачи с этим id
 function deleteTask(tasks, id) {
   return tasks.filter((task) => task.id !== id);
 }
 
-// 3. «✓»: у задачи с этим id done меняется на противоположное
+console.log("2.", show(deleteTask(tasks, 1)));
+// Ожидается: ["☑ Сделать домашку"]
+
+
+// ── 3. toggleDone(tasks, id) — у задачи с этим id done меняется на противоположное
 function toggleDone(tasks, id) {
   return tasks.map((task) =>
     task.id === id ? { ...task, done: !task.done } : task
   );
 }
 
-// 4. «✎»: у задачи с этим id новое название title
+console.log("3.", show(toggleDone(tasks, 1)));
+// Ожидается: ["☑ Купить хлеб", "☑ Сделать домашку"]
+
+
+// ── 4. renameTask(tasks, id, title) — у задачи с этим id новое название
 function renameTask(tasks, id, title) {
   return tasks.map((task) =>
     task.id === id ? { ...task, title: title } : task
   );
 }
 
-// 5. Почему в addTask нельзя написать tasks.push(task)?
-// Ответ: push меняет старый массив. А мы договорились старые данные не трогать
-// и возвращать новый массив — так программа (и React) видит, что данные изменились.
+console.log("4.", show(renameTask(tasks, 1, "Купить молоко")));
+// Ожидается: ["☐ Купить молоко", "☑ Сделать домашку"]
 
 
-// ─── 3. КНОПКИ ───────────────────────────────
-// Нажали кнопку → вызвали вашу функцию → получили новый список.
-
-function clickAdd() {
-  const input = document.querySelector("#title");
-  const title = input.value.trim();
-  if (title === "") {
-    showMessage("Введите текст задачи.", "");
-    return;
-  }
-  const task = { id: nextId, title: title, done: false };
-  if (save(addTask(tasks, task))) {
-    nextId = nextId + 1;
-    input.value = "";
-  }
-}
-
-function clickDelete(id) {
-  save(deleteTask(tasks, id));
-}
-
-function clickToggle(id) {
-  save(toggleDone(tasks, id));
-}
-
-function clickRename(id) {
-  const title = prompt("Новое название");
-  if (title) {
-    save(renameTask(tasks, id, title));
-  }
-}
-
-// Запоминаем новый список и проверяем, что старый не испорчен
-function save(newTasks) {
-  if (newTasks === undefined) {
-    showMessage("⏳ Функция пока пустая — нужен return.", "");
-    return false;
-  }
-
-  oldTasks = tasks;
-  tasks = newTasks;
-
-  if (oldTasks === newTasks) {
-    showMessage("❌ Вернулся ТОТ ЖЕ массив. Нужен новый: [...tasks], filter или map.", "bad");
-  } else if (JSON.stringify(oldTasks) !== tasksText) {
-    showMessage("❌ Старый список изменился — это мутация. Посмотрите на «Было».", "bad");
-  } else if (newTasks.includes(undefined)) {
-    showMessage("❌ В новом списке undefined — в map нужно вернуть и остальные задачи.", "bad");
-  } else {
-    showMessage("✅ Получили новый список. Старый не изменился.", "ok");
-  }
-  tasksText = JSON.stringify(tasks);
-  render();
-  return true;
-}
+// ── 5. Старый список не изменился?
+console.log("5.", show(tasks));
+// Ожидается: ["☐ Купить хлеб", "☑ Сделать домашку"]
 
 
-// ─── 4. ПОКАЗ НА ЭКРАНЕ ──────────────────────
+// ── 6. Сравните через ===
+// Сохраните результат toggleDone(tasks, 1) в переменную и выведите:
+//   новый список === tasks                Ожидается: false
+//   задача с индексом 1 в обоих списках   Ожидается: true (её не меняли)
+const toggled = toggleDone(tasks, 1);
+console.log("6. Списки:", toggled === tasks);         // false
+console.log("6. Задача 2:", toggled[1] === tasks[1]); // true
 
-function showTasks(list, withButtons) {
-  if (list.length === 0) {
-    return `<div class="empty">Пусто</div>`;
-  }
-  return list.map((task) => {
-    if (task === undefined) {
-      return `<div class="row bad">undefined — в map забыли вернуть задачу</div>`;
-    }
-    const buttons = withButtons
-      ? `<button onclick="clickToggle(${task.id})">✓</button>
-         <button onclick="clickRename(${task.id})">✎</button>
-         <button onclick="clickDelete(${task.id})">✕</button>`
-      : "";
-    const doneClass = task.done ? "row done" : "row";
-    return `<div class="${doneClass}"><span>${task.title}</span>${buttons}</div>`;
-  }).join("");
-}
 
-function render() {
-  document.querySelector("#before").innerHTML = showTasks(oldTasks, false);
-  document.querySelector("#after").innerHTML = showTasks(tasks, true);
-}
+// ── 7. Ответьте комментарием: почему в addTask нельзя написать tasks.push(task)?
+// Ответ: push меняет старый массив tasks. А функция должна вернуть новый массив
+// и не трогать старый — иначе все, у кого есть ссылка на tasks, увидят изменение.
 
-function showMessage(text, type) {
-  const box = document.querySelector("#message");
-  box.textContent = text;
-  box.className = type;
-}
-
-document.querySelector("#addButton").addEventListener("click", clickAdd);
-render();
-showMessage("Нажмите любую кнопку.", "");

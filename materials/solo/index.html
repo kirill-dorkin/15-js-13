@@ -1,66 +1,27 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Урок 13 · Плейлист</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <title>Практика JS 13 · Плейлист</title>
+  <style>
+    body { font: 19px/1.6 system-ui, sans-serif; max-width: 720px; margin: 50px auto; padding: 24px; background: #f5f3fc; color: #252038; }
+    h1 { font-size: 30px; margin: 0 0 16px; }
+    code { color: #7054d6; background: #ece7ff; padding: 1px 6px; border-radius: 6px; }
+    li { margin-bottom: 6px; }
+    .rule { background: #fff; border-left: 5px solid #7956f7; padding: 12px 16px; border-radius: 10px; font-weight: 600; }
+  </style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1>Сами · <span>плейлист</span></h1>
-      <p class="lead">То же, что с корзиной, только песни. Весь код — в <code>script.js</code>. Пишем три функции.</p>
-    </header>
-
-    <section class="steps">
-      <div><b>1</b>Пишем функцию в <code>script.js</code></div>
-      <div><b>2</b>Сохраняем и обновляем страницу — <code>F5</code></div>
-      <div><b>3</b>Жмём кнопку и смотрим «Было» и «Стало»</div>
-    </section>
-
-    <section class="card">
-      <div class="columns">
-        <div>
-          <h3>Добавить песню</h3>
-          <div class="row"><input id="title" placeholder="Название" maxlength="40" /><button class="main" id="addButton">Добавить</button></div>
-        </div>
-        <div class="old">
-          <h3>Было <small>старый плейлист</small></h3>
-          <div class="list" id="before"></div>
-        </div>
-        <div>
-          <h3>Стало <small>новый плейлист</small></h3>
-          <div class="list" id="after"></div>
-        </div>
-      </div>
-      <div id="message">Если здесь пусто — в script.js ошибка. Откройте консоль: F12 → Console.</div>
-    </section>
-
-    <section>
-      <h2>ЗАДАНИЯ</h2>
-      <div class="tasks">
-        <article class="task">
-          <h3>1. Кнопка «Добавить» — <code>addSong(playlist, song)</code></h3>
-          <p>Вернуть новый плейлист: все старые песни + <code>song</code> в конце.</p>
-          <details><summary>Подсказка</summary><pre>Как addToCart в корзине.</pre></details>
-        </article>
-        <article class="task">
-          <h3>2. Кнопка «✕» — <code>removeSong(playlist, id)</code></h3>
-          <p>Вернуть новый плейлист без песни с этим <code>id</code>.</p>
-          <details><summary>Подсказка</summary><pre>Как removeFromCart в корзине: filter.</pre></details>
-        </article>
-        <article class="task">
-          <h3>3. Кнопка «♥» — <code>likeSong(playlist, id)</code></h3>
-          <p>Вернуть новый плейлист, где у одной песни <code>likes</code> на 1 больше.</p>
-          <p>Было <code>Gulzada ♥ 12</code> → стало <code>Gulzada ♥ 13</code></p>
-          <details><summary>Подсказка</summary><pre>Как increaseQty в корзине: map + { ...song, likes: song.likes + 1 }</pre></details>
-        </article>
-      </div>
-    </section>
-  </main>
-
+  <h1>Ref Lab · Практика сами</h1>
+  <ol>
+    <li>Откройте <code>script.js</code> в VS Code.</li>
+    <li>Откройте консоль браузера: <code>F12</code> → <b>Console</b>.</li>
+    <li>Напишите функцию, сохраните файл и обновите страницу (<code>F5</code>).</li>
+    <li>Сравните вывод в консоли с тем, что написано после «Ожидается».</li>
+  </ol>
+  <p class="rule">Правило урока: старые данные не меняем — функция возвращает новый массив.</p>
+  <p>Задания: добавить песню, удалить песню, поставить лайк, сравнить через <code>===</code>.</p>
   <script src="script.js"></script>
 </body>
 </html>

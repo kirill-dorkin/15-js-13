@@ -1,130 +1,75 @@
-// ═════════════════════════════════════════════
-//  Урок 13 · Корзина магазина
-//  Весь код страницы здесь. Мы пишем только раздел 2.
-// ═════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  JS 13 · Практика вместе: корзина
+//  Результат смотрим в консоли: F12 → Console.
+//  Правило: старую корзину НЕ меняем, возвращаем НОВУЮ.
+// ═══════════════════════════════════════════════
 
-
-// ─── 1. ДАННЫЕ ───────────────────────────────
-
-const catalog = [
-  { id: 1, name: "Чай", price: 180 },
-  { id: 2, name: "Кофе", price: 250 },
-  { id: 3, name: "Сок", price: 150 },
+const cart = [
+  { id: 1, name: "Чай", qty: 1 },
+  { id: 2, name: "Кофе", qty: 2 },
 ];
 
-let cart = [
-  { id: 1, name: "Чай", price: 180, qty: 1 },
-  { id: 2, name: "Кофе", price: 250, qty: 2 },
-];
+const juice = { id: 3, name: "Сок", qty: 1 };
 
-let oldCart = cart;                  // корзина до последнего нажатия
-let cartText = JSON.stringify(cart); // снимок корзины — чтобы заметить, если её испортили
+// Помощник для консоли: корзина → ["Чай ×1", "Кофе ×2"]
+function show(list) {
+  if (list === undefined) {
+    return "undefined — функция ничего не вернула (нет return)";
+  }
+  return list.map((item) => (item === undefined ? "undefined" : item.name + " ×" + item.qty));
+}
 
 
-// ─── 2. НАШИ ФУНКЦИИ ─────────────────────────
-// Правило: старую корзину НЕ меняем. Возвращаем НОВУЮ.
+// ── 0. Разминка: ссылка или копия?
+// Сначала скажите ответ вслух, потом обновите страницу.
+const sameCart = cart;
+const copyCart = [...cart];
+console.log("0. sameCart === cart:", sameCart === cart); // ?
+console.log("0. copyCart === cart:", copyCart === cart); // ?
 
-// «В корзину»: новая корзина + product в конце
+
+// ── 1. Добавить товар
+// addToCart(cart, product) возвращает новый массив: все товары + product в конце.
 function addToCart(cart, product) {
   return [...cart, product];
 }
 
-// «✕»: новая корзина без товара с этим id
+const cart1 = addToCart(cart, juice);
+console.log("1. Новая: ", show(cart1)); // Ожидается: ["Чай ×1", "Кофе ×2", "Сок ×1"]
+console.log("1. Старая:", show(cart));  // Ожидается: ["Чай ×1", "Кофе ×2"]
+
+
+// ── 2. Удалить товар
+// removeFromCart(cart, id) возвращает новый массив без товара с этим id.
 function removeFromCart(cart, id) {
   return cart.filter((item) => item.id !== id);
 }
 
-// «+»: новая корзина, где у товара с этим id qty + 1
+const cart2 = removeFromCart(cart, 2);
+console.log("2. Новая: ", show(cart2)); // Ожидается: ["Чай ×1"]
+console.log("2. Старая:", show(cart));  // Ожидается: ["Чай ×1", "Кофе ×2"]
+
+
+// ── 3. Увеличить количество
+// increaseQty(cart, id) возвращает новый массив.
+// У товара с этим id — новый объект с qty + 1. Остальные — как есть.
 function increaseQty(cart, id) {
   return cart.map((item) =>
     item.id === id ? { ...item, qty: item.qty + 1 } : item
   );
 }
 
-
-// ─── 3. КНОПКИ ───────────────────────────────
-// Нажали кнопку → вызвали нашу функцию → получили новую корзину.
-
-function clickAdd(id) {
-  const product = catalog.find((p) => p.id === id);
-  const inCart = cart.some((item) => item.id === id);
-
-  if (inCart) {
-    save(increaseQty(cart, id));           // уже есть — просто +1
-  } else {
-    save(addToCart(cart, { ...product, qty: 1 }));
-  }
-}
-
-function clickRemove(id) {
-  save(removeFromCart(cart, id));
-}
-
-function clickPlus(id) {
-  save(increaseQty(cart, id));
-}
-
-// Запоминаем новую корзину и проверяем, что старая не испорчена
-function save(newCart) {
-  if (newCart === undefined) {
-    showMessage("⏳ Функция пока пустая — нужен return.", "");
-    return;
-  }
-
-  oldCart = cart;
-  cart = newCart;
-
-  if (oldCart === newCart) {
-    showMessage("❌ Вернулся ТОТ ЖЕ массив. Нужен новый: [...cart], filter или map.", "bad");
-  } else if (JSON.stringify(oldCart) !== cartText) {
-    showMessage("❌ Старая корзина изменилась — это мутация. Посмотрите на «Было».", "bad");
-  } else if (newCart.includes(undefined)) {
-    showMessage("❌ В новой корзине undefined — в map нужно вернуть и остальные товары.", "bad");
-  } else {
-    showMessage("✅ Получили новую корзину. Старая не изменилась.", "ok");
-  }
-  cartText = JSON.stringify(cart);
-  render();
-}
+const cart3 = increaseQty(cart, 2);
+console.log("3. Новая: ", show(cart3)); // Ожидается: ["Чай ×1", "Кофе ×3"]
+console.log("3. Старая:", show(cart));  // Ожидается: ["Чай ×1", "Кофе ×2"]
 
 
-// ─── 4. ПОКАЗ НА ЭКРАНЕ ──────────────────────
+// ── 4. Сравнить через ===
+// Выведите в консоль три сравнения:
+//   cart3 === cart        Ожидается: false (новый массив)
+//   cart3[1] === cart[1]  Ожидается: false (Кофе — новый объект)
+//   cart3[0] === cart[0]  Ожидается: true  (Чай не меняли — тот же объект)
+console.log("4. Массивы:", cart3 === cart);       // false
+console.log("4. Кофе:", cart3[1] === cart[1]);    // false
+console.log("4. Чай:", cart3[0] === cart[0]);     // true
 
-function showCart(list, withButtons) {
-  if (list.length === 0) {
-    return `<div class="empty">Пусто</div>`;
-  }
-  return list.map((item) => {
-    if (item === undefined) {
-      return `<div class="row bad">undefined — в map забыли вернуть товар</div>`;
-    }
-    const buttons = withButtons
-      ? `<button onclick="clickPlus(${item.id})">+</button>
-         <button onclick="clickRemove(${item.id})">✕</button>`
-      : "";
-    return `<div class="row"><span>${item.name} × ${item.qty}</span>${buttons}</div>`;
-  }).join("");
-}
-
-function render() {
-  document.querySelector("#catalog").innerHTML = catalog.map((p) => `
-    <div class="row">
-      <span>${p.name} <small>${p.price} сом</small></span>
-      <button class="main" onclick="clickAdd(${p.id})">В корзину</button>
-    </div>`).join("");
-
-  document.querySelector("#before").innerHTML = showCart(oldCart, false);
-  document.querySelector("#after").innerHTML = showCart(cart, true);
-
-  const total = cart.reduce((sum, item) => sum + (item ? item.price * item.qty : 0), 0);
-  document.querySelector("#total").textContent = "Итого: " + total + " сом";
-}
-
-function showMessage(text, type) {
-  const box = document.querySelector("#message");
-  box.textContent = text;
-  box.className = type;
-}
-
-render();
-showMessage("Нажмите любую кнопку.", "");
