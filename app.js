@@ -260,7 +260,7 @@ function practice(s, st) {
     + '<div class="task-side"><div class="goal"><span class="caps">' + esc(p.caption) + '</span><h3>' + (joint ? 'Оживляем магазин' : 'Оживляем плеер') + '</h3>'
     + '<ol class="flow"><li>Открыть <b>index.html</b> — там ' + esc(p.app) + ', кнопки пока не работают</li><li>Написать одну функцию в <b>script.js</b></li><li>Сохранить и обновить страницу (F5)</li><li>Нажать кнопку: работает → у задания ✅</li></ol>'
     + '<div class="minutes" id="timerDisplay" role="timer">' + formatTime(remaining) + '</div><div class="buttons"><button class="primary" data-action="timer">' + (st.running ? 'Пауза' : 'Старт таймера') + '</button><button class="secondary" data-action="timer-reset">Сброс</button></div></div>'
-    + '<div class="download"><div class="file-label">Файлы практики<small>' + esc(p.files) + ' · подсказки внутри</small></div><a href="' + p.zip.replace('.zip', '/index.html') + '" target="_blank" rel="noopener" class="open-link">Открыть</a><a href="' + p.zip + '" download>↓ ZIP</a></div></div></div>';
+    + '<div class="download"><div class="file-label">Файлы практики<small>' + esc(p.files) + ' · подсказки внутри</small></div><a href="' + p.zip.replace('.zip', '/') + '" target="_blank" rel="noopener" class="open-link">Открыть</a><a href="' + p.zip + '" download>↓ ZIP</a></div></div></div>';
 }
 
 const SUMMARY = [
