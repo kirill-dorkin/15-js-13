@@ -4,19 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Урок 13 · Домашнее задание</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./page.css" />
 </head>
 <body>
-  <main>
-    <h1>Урок 13 · <span>Домашнее задание</span></h1>
-    <p class="lead">Список задач (todo). Все функции — без мутаций. Проверка встроена.</p>
-    <section class="card"><h2>ЗАДАНИЯ</h2><ol><li><code>addTask(tasks, title)</code> — новая задача <code>{ id, title, done: false }</code>, id = последний id + 1.</li><li><code>deleteTask(tasks, id)</code> — удалить по id.</li><li><code>toggleDone(tasks, id)</code> — переключить done.</li><li><code>renameTask(tasks, id, title)</code> — новое название.</li><li><code>sortByTitle(tasks)</code> — новый массив по алфавиту, исходный не трогаем.</li><li><code>moveUser(user, city)</code> — поменять <code>user.address.city</code> (вложенный объект).</li><li><code>addTag(user, tag)</code> — добавить тег в <code>user.tags</code>.</li></ol></section>
-    <section class="card"><h2>АВТОПРОВЕРКА · обновите страницу после каждой функции</h2><div id="checks"></div></section>
-    <section class="card"><h2>ВАШ ВЫВОД (console.log)</h2><p class="lead">Откройте консоль: F12 → Console.</p></section>
-  </main>
-  <script src="./check-kit.js"></script>
-  <script src="./script.js"></script>
-  <script src="./check.js"></script>
+<main>
+  <header>
+    <h1>Домашнее задание · <span>список задач</span></h1>
+    <p class="lead">Приложение «Список задач» и профиль пользователя. Каждая кнопка вызывает функцию из <b>script.js</b>. Сделайте так, чтобы заработали все кнопки, и ответьте на вопрос 8.</p>
+  </header>
+
+  <section class="steps">
+    <div><b>ШАГ 1</b>Откройте <code>script.js</code></div>
+    <div><b>ШАГ 2</b>Напишите функцию по заданию</div>
+    <div><b>ШАГ 3</b>Сохраните и обновите страницу (<code>F5</code>)</div>
+    <div><b>ШАГ 4</b>Проверьте кнопку и ✅. Шпаргалка — <code>SUMMARY.md</code></div>
+  </section>
+
+  <section class="card">
+    <h2>ПРИЛОЖЕНИЕ · кнопки вызывают ваши функции</h2>
+    <div class="app">
+      <div>
+        <h3>Задачи <small>tasks</small></h3>
+        <div class="row" style="margin-bottom:8px"><input id="newTask" class="grow" placeholder="Новая задача" maxlength="50" /><button class="main" data-act="add">Добавить</button><button class="ghost" data-act="sort">А→Я</button></div>
+        <div class="list" id="tasks"></div>
+      </div>
+      <div>
+        <h3>Профиль <small>user</small></h3>
+        <div class="list" id="user"></div>
+        <div class="row" style="margin-top:8px"><select id="city" class="grow"><option>Бишкек</option><option>Ош</option><option>Каракол</option><option>Нарын</option></select><button data-act="move">Переехать</button></div>
+        <div class="row" style="margin-top:8px"><input id="newTag" class="grow" placeholder="Новый тег, например react" maxlength="20" /><button data-act="tag">+ Тег</button></div>
+      </div>
+    </div>
+    <div class="status" id="status">Нажмите любую кнопку. Здесь появится, что сделала функция.</div>
+  </section>
+
+  <section>
+    <div class="tasks-head"><h2>ЗАДАНИЯ</h2><div id="score"></div></div>
+    <div class="tasks">
+      <article class="task" data-task="addTask">
+        <header><span class="num">1</span><h3>«Добавить» задачу</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> новая задача в конце списка. id = id последней задачи + 1 (если список пуст — 1), done: false.</p>
+        <div class="sig"><code>addTask(tasks, title)</code> → новый массив</div>
+        <div class="ba"><div><small>БЫЛО: 3 задачи, последний id 3</small><pre>title = "Новая"</pre></div><div class="arrow">→</div><div><small>В КОНЦЕ НОВОГО МАССИВА</small><pre><mark>{ id: 4, title: "Новая", done: false }</mark></pre></div></div>
+        <details><summary>Подсказка</summary><pre>Последний элемент: tasks[tasks.length - 1]
+Пустой список: tasks.length === 0</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="deleteTask">
+        <header><span class="num">2</span><h3>«✕» — удалить</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> новый список без задачи с этим id.</p>
+        <div class="sig"><code>deleteTask(tasks, id)</code> → новый массив</div>
+        <details><summary>Подсказка</summary><pre>filter</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="toggleDone">
+        <header><span class="num">3</span><h3>Галочка — выполнено / нет</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> у одной задачи done меняется на противоположное. Остальные задачи — те же объекты.</p>
+        <div class="sig"><code>toggleDone(tasks, id)</code> → новый массив</div>
+        <details><summary>Подсказка</summary><pre>map + { ...task, done: !task.done }</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="renameTask">
+        <header><span class="num">4</span><h3>«✎» — переименовать</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> у одной задачи новый title, id и done сохраняются.</p>
+        <div class="sig"><code>renameTask(tasks, id, title)</code> → новый массив</div>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="sortByTitle">
+        <header><span class="num">5</span><h3>«А→Я» — сортировка</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> отсортировать по названию. Ловушка: <code>sort</code> меняет исходный массив!</p>
+        <div class="sig"><code>sortByTitle(tasks)</code> → новый массив</div>
+        <details><summary>Подсказка</summary><pre>Сначала копия массива, потом sort.
+Сравнение строк: a.title.localeCompare(b.title)</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="moveUser">
+        <header><span class="num">6</span><h3>«Переехать» — сменить город</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> город лежит внутри <code>user.address</code> — вложенный объект. Копируем оба уровня.</p>
+        <div class="sig"><code>moveUser(user, city)</code> → новый объект</div>
+        <div class="ba"><div><small>БЫЛО</small><pre>address: { city: "Бишкек", street: "Чуй 1" }</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ (city = "Ош")</small><pre>address: { city: <mark>"Ош"</mark>, street: "Чуй 1" }</pre></div></div>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="addTag">
+        <header><span class="num">7</span><h3>«+ Тег»</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> теги — массив внутри user. Нужен новый user с новым массивом tags.</p>
+        <div class="sig"><code>addTag(user, tag)</code> → новый объект</div>
+        <div class="ba"><div><small>БЫЛО</small><pre>tags: ["js"]</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ (tag = "react")</small><pre>tags: ["js", <mark>"react"</mark>]</pre></div></div>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task">
+        <header><span class="num">8</span><h3>Вопрос письменно</h3><span class="badge">в script.js</span></header>
+        <p class="why">Почему после <code>const copy = { ...user }; copy.tags.push("css");</code> у <code>user</code> тоже появится "css"? Ответ 1–2 предложения — комментарием в конце <b>script.js</b>.</p>
+      </article>
+    </div>
+  </section>
+</main>
+<script src="./kit.js"></script>
+<script src="./script.js"></script>
+<script src="./check.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>

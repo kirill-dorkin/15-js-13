@@ -128,8 +128,8 @@ const slides = [
   { type: 'theory', label: '22 / ЗАЧЕМ', section: 'Зачем это всё', title: 'Через месяц — <em>React</em>', lead: 'React понимает «данные изменились», только если пришёл новый объект или массив.', minutes: 2,
     code: '// так React НЕ увидит изменений:\ncart.push(tea);\nsetCart(cart);              // та же ссылка\n\n// так увидит и перерисует:\nsetCart([...cart, tea]);    // новый массив\n\nsetCart(cart.map((item) =>\n  item.id === id ? { ...item, qty: item.qty + 1 } : item\n));',
     items: [['Сравнение ссылок', 'React сравнивает старое и новое состояние через ===.'], ['Новая ссылка', 'Новый массив/объект = «есть изменения» → перерисовка.'], ['Сегодняшний урок', 'Это и есть код для React — только без React.']], notes: 'Мотивация: всё, что сегодня выучили, — ежедневный код React-разработчика.' },
-  { type: 'practice', practice: 'joint', label: '23 / ВМЕСТЕ', section: 'Практика', title: 'Вместе: <em>корзина MiniShop</em>', lead: 'Пишем функции, которые возвращают новые данные. Автопроверка сразу покажет мутацию.', minutes: 20, notes: 'Откройте materials/joint/index.html. Проверка работает и в консоли, и на странице. Проверка ловит мутацию входных данных и пишет понятную ошибку — используйте это как обучающий момент.' },
-  { type: 'practice', practice: 'solo', label: '24 / САМИ', section: 'Практика', title: 'Самостоятельно: <em>плейлист</em>', lead: 'Те же приёмы на новых данных. Цель — все проверки зелёные.', minutes: 15, notes: 'Не подсказывайте код — подсказывайте шаблон: «какой метод возвращает новый массив?».' },
+  { type: 'practice', practice: 'joint', label: '23 / ВМЕСТЕ', section: 'Практика', title: 'Вместе: <em>корзина MiniShop</em>', lead: 'Каждая кнопка магазина вызывает функцию. Функции пустые — пишем их по очереди, и магазин оживает.', minutes: 20, notes: 'Откройте materials/joint/index.html на проекторе и script.js в редакторе рядом. Покажите: кнопка «В корзину» не работает — внизу написано почему. Пишем addToCart вместе, F5, жмём кнопку — товар появился, у задания ✅. Дальше так же по одной функции. Если кто-то напишет push — страница покажет «Мутация!»: разберите это.' },
+  { type: 'practice', practice: 'solo', label: '24 / САМИ', section: 'Практика', title: 'Самостоятельно: <em>плейлист</em>', lead: 'То же самое, но с песнями. Каждая кнопка плеера — одна функция. Цель: все задания ✅.', minutes: 15, notes: 'Ученики открывают materials/solo/index.html. Под каждым заданием есть «было → стало» и подсказка. Не подсказывайте код — спрашивайте: «какой метод возвращает новый массив?».' },
   { type: 'summary', part: 'concepts', label: '25 / ШПАРГАЛКА 1/2', section: 'Итог', title: 'Шпаргалка: <em>главные понятия</em>', lead: 'Всё правило урока на одном экране. Листать презентацию не нужно — можно распечатать или скачать.', minutes: 3, notes: 'Пусть ученики сфотографируют или скачают. Пройдитесь по каждому блоку одной фразой.' },
   { type: 'summary', part: 'exceptions', label: '26 / ШПАРГАЛКА 2/2', section: 'Итог', title: 'Шпаргалка: <em>исключения и ловушки</em>', lead: 'Именно эти случаи дают ошибки в домашке. Проверьте себя по списку.', minutes: 3, notes: 'Спросите по 2–3 пункта: «почему так?» — без подсказки.' },
   { type: 'end', title: 'Готово', section: 'Итог', minutes: 1, notes: 'Домашнее задание: список задач. Проверка встроена в файл.' },
@@ -157,23 +157,23 @@ const BUGS = [
 
 const PRACTICE = {
   joint: {
-    caption: 'МИНИ-МАГАЗИН · materials/joint', zip: './materials/joint.zip',
+    caption: 'materials/joint · 20 минут', zip: './materials/joint.zip', app: 'мини-магазин', files: 'index.html · script.js',
     tasks: [
-      'addToCart(cart, product) — вернуть новый массив, где в конце { ...product, qty: 1 }. Ожидается длина 3.',
-      'removeFromCart(cart, id) — вернуть массив без товара с этим id. Используйте filter.',
-      'increaseQty(cart, id) — увеличить qty у нужного товара. map + spread, остальные вернуть как есть.',
-      'changePrice(catalog, id, price) — новый каталог с новой ценой одного товара. Исходный не трогаем.',
-      'Бонус: addOrIncrease(cart, product) — если товар уже в корзине (some), увеличить qty, иначе добавить.',
+      ['Кнопка «В корзину»', 'addToCart(cart, product)', 'новая корзина + товар в конце'],
+      ['Кнопка «✕»', 'removeFromCart(cart, id)', 'новая корзина без товара — filter'],
+      ['Кнопка «+»', 'increaseQty(cart, id)', 'у одного товара qty + 1 — map + spread'],
+      ['Кнопка «−10%»', 'changePrice(catalog, id, price)', 'новый каталог с новой ценой'],
+      ['Бонус: без дублей', 'addOrIncrease(cart, product)', 'есть в корзине → +1, нет → добавить'],
     ],
   },
   solo: {
-    caption: 'ПЛЕЙЛИСТ · materials/solo', zip: './materials/solo.zip',
+    caption: 'materials/solo · 15 минут', zip: './materials/solo.zip', app: 'музыкальный плеер', files: 'index.html · script.js',
     tasks: [
-      'addSong(playlist, song) — добавить песню в конец. Новый массив.',
-      'removeSong(playlist, id) — убрать песню по id.',
-      'likeSong(playlist, id) — likes + 1 у одной песни.',
-      'toggleSaved(playlist, id) — saved: !song.saved у одной песни.',
-      'Бонус: setVolume(settings, volume) — поменять settings.player.volume. Вложенный объект — копируйте оба уровня.',
+      ['Кнопка «Добавить»', 'addSong(playlist, song)', 'новый плейлист + песня в конце'],
+      ['Кнопка «✕»', 'removeSong(playlist, id)', 'плейлист без песни'],
+      ['Кнопка «♥»', 'likeSong(playlist, id)', 'likes + 1 у одной песни'],
+      ['Кнопка «☆»', 'toggleSaved(playlist, id)', 'saved: !song.saved'],
+      ['Бонус: громкость', 'setVolume(settings, volume)', 'вложенный player — копируем оба уровня'],
     ],
   },
 };
@@ -254,7 +254,13 @@ function practice(s, st) {
   const p = PRACTICE[s.practice];
   const joint = s.practice === 'joint';
   const remaining = st.remaining ?? s.minutes * 60;
-  return '<div class="practice-layout"><div class="task-list"><div class="pane-heading">' + (joint ? 'ПИШЕМ ВМЕСТЕ' : 'ПИШЕМ САМИ') + '<span>script.js</span></div>' + p.tasks.map((x, i) => '<div class="task-step"><i>' + String(i + 1).padStart(2, '0') + '</i><div>' + esc(x) + '</div></div>').join('') + '<div class="tip">Откройте <b>index.html</b> в браузере. Внизу страницы и в консоли — автопроверка: <b>✅</b> готово, <b>❌</b> ошибка с подсказкой, <b>⏳</b> ещё не начато. Если функция меняет входные данные — проверка покажет ❌ «Мутация!».</div></div><div class="task-side"><div class="goal"><span class="caps">' + p.caption + '</span><h3>' + (joint ? 'Пишем по одной функции' : 'Все проверки — зелёные') + '</h3><p>' + (joint ? 'После каждой функции — обновить страницу и посмотреть проверку.' : 'Не меняйте входные данные. Каждая функция возвращает новое.') + '</p><div class="minutes" id="timerDisplay" role="timer">' + formatTime(remaining) + '</div><div class="buttons"><button class="primary" data-action="timer">' + (st.running ? 'Пауза' : 'Старт таймера') + '</button><button class="secondary" data-action="timer-reset">Сброс</button></div></div><div class="download"><div class="file-label">Стартовые файлы<small>index.html · script.js · check.js</small></div><a href="' + p.zip + '" download>↓ ZIP</a></div></div></div>';
+  return '<div class="practice-layout"><div class="task-list"><div class="pane-heading">КНОПКА → ФУНКЦИЯ → ЧТО ВЕРНУТЬ<span>script.js</span></div>'
+    + p.tasks.map((x, i) => '<div class="task-step pr-row"><i>' + String(i + 1).padStart(2, '0') + '</i><div class="pr-btn">' + esc(x[0]) + '</div><code>' + esc(x[1]) + '</code><div class="pr-ret">→ ' + esc(x[2]) + '</div></div>').join('')
+    + '<div class="tip">Каждая функция <b>не меняет</b> входные данные и <b>возвращает новые</b>. Страница сама заменит старые данные на новые — как будет в React.</div></div>'
+    + '<div class="task-side"><div class="goal"><span class="caps">' + esc(p.caption) + '</span><h3>' + (joint ? 'Оживляем магазин' : 'Оживляем плеер') + '</h3>'
+    + '<ol class="flow"><li>Открыть <b>index.html</b> — там ' + esc(p.app) + ', кнопки пока не работают</li><li>Написать одну функцию в <b>script.js</b></li><li>Сохранить и обновить страницу (F5)</li><li>Нажать кнопку: работает → у задания ✅</li></ol>'
+    + '<div class="minutes" id="timerDisplay" role="timer">' + formatTime(remaining) + '</div><div class="buttons"><button class="primary" data-action="timer">' + (st.running ? 'Пауза' : 'Старт таймера') + '</button><button class="secondary" data-action="timer-reset">Сброс</button></div></div>'
+    + '<div class="download"><div class="file-label">Файлы практики<small>' + esc(p.files) + ' · подсказки внутри</small></div><a href="' + p.zip.replace('.zip', '/index.html') + '" target="_blank" rel="noopener" class="open-link">Открыть</a><a href="' + p.zip + '" download>↓ ZIP</a></div></div></div>';
 }
 
 const SUMMARY = [

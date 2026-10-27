@@ -3,20 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Урок 13 · Корзина MiniShop</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <title>Урок 13 · Корзина магазина</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./page.css" />
 </head>
 <body>
-  <main>
-    <h1>Урок 13 · <span>Корзина MiniShop</span></h1>
-    <p class="lead">Пишем вместе. Каждая функция возвращает новые данные и не меняет входные.</p>
-    <section class="card"><h2>ЗАДАНИЯ</h2><ol><li><code>addToCart(cart, product)</code> — добавить товар с <code>qty: 1</code> в конец.</li><li><code>removeFromCart(cart, id)</code> — убрать товар по id.</li><li><code>increaseQty(cart, id)</code> — увеличить qty на 1 у одного товара.</li><li><code>changePrice(catalog, id, price)</code> — новая цена одного товара.</li><li>Бонус: <code>addOrIncrease(cart, product)</code> — есть в корзине → qty + 1, нет → добавить.</li></ol></section>
-    <section class="card"><h2>АВТОПРОВЕРКА · обновите страницу после каждой функции</h2><div id="checks"></div></section>
-    <section class="card"><h2>ВАШ ВЫВОД (console.log)</h2><p class="lead">Откройте консоль: F12 → Console.</p></section>
-  </main>
-  <script src="./check-kit.js"></script>
-  <script src="./script.js"></script>
-  <script src="./check.js"></script>
+<main>
+  <header>
+    <h1>Практика вместе · <span>корзина магазина</span></h1>
+    <p class="lead">Ниже — настоящий мини-магазин. Его кнопки пока не работают: каждая кнопка вызывает функцию из <b>script.js</b>, а функции пустые. Напишем их — и магазин оживёт.</p>
+  </header>
+
+  <section class="steps">
+    <div><b>ШАГ 1</b>Откройте <code>script.js</code> в редакторе рядом с этой страницей</div>
+    <div><b>ШАГ 2</b>Напишите одну функцию из списка заданий ниже</div>
+    <div><b>ШАГ 3</b>Сохраните файл и обновите страницу (<code>F5</code>)</div>
+    <div><b>ШАГ 4</b>Нажмите кнопку в магазине — работает? У задания ✅</div>
+  </section>
+
+  <section class="card">
+    <h2>МАГАЗИН · кнопки вызывают ваши функции</h2>
+    <div class="app">
+      <div><h3>Каталог <small>catalog</small></h3><div class="list" id="catalog"></div></div>
+      <div><h3>Корзина <small>cart</small></h3><div class="list" id="cart"></div><div class="total"><span>Итого</span><span id="total">0 сом</span></div></div>
+    </div>
+    <div class="status" id="status">Нажмите любую кнопку. Здесь появится, что сделала функция.</div>
+    <p class="note" style="margin-top:10px">Главное правило: функция <b>не меняет</b> старую корзину, а <b>возвращает новую</b>. Магазин сам заменит старую корзину на новую. Так работает каждая кнопка в React.</p>
+  </section>
+
+  <section>
+    <div class="tasks-head"><h2>ЗАДАНИЯ · пишем по порядку</h2><div id="score"></div></div>
+    <div class="tasks">
+
+      <article class="task" data-task="addToCart">
+        <header><span class="num">1</span><h3>Кнопка «В корзину»</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> покупатель нажал «В корзину» у товара. Нужна новая корзина, в которой в конце лежит этот товар с количеством 1.</p>
+        <div class="sig"><code>addToCart(cart, product)</code> → новый массив</div>
+        <div class="ba">
+          <div><small>БЫЛО: cart</small><pre>[ Чай qty:1, Кофе qty:2 ]</pre></div><div class="arrow">→</div>
+          <div><small>ВЕРНУТЬ (product = Сок)</small><pre>[ Чай qty:1, Кофе qty:2, <mark>Сок qty:1</mark> ]</pre></div>
+        </div>
+        <details><summary>Подсказка</summary><pre>// новый массив: всё старое + новый товар в конце
+return [...cart, новыйТовар];
+// новый товар = копия product + qty: 1
+{ ...product, qty: 1 }</pre></details>
+        <p class="check-msg"></p>
+      </article>
+
+      <article class="task" data-task="removeFromCart">
+        <header><span class="num">2</span><h3>Кнопка «✕» — убрать из корзины</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> покупатель передумал. Нужна новая корзина <b>без</b> товара с этим id.</p>
+        <div class="sig"><code>removeFromCart(cart, id)</code> → новый массив</div>
+        <div class="ba">
+          <div><small>БЫЛО: cart, id = 2</small><pre>[ Чай qty:1, Кофе qty:2 ]</pre></div><div class="arrow">→</div>
+          <div><small>ВЕРНУТЬ</small><pre>[ Чай qty:1 ]</pre></div>
+        </div>
+        <details><summary>Подсказка</summary><pre>// filter оставляет тех, для кого условие true.
+// Оставляем всех, у кого id НЕ равен удаляемому:
+cart.filter((item) => item.id !== id)</pre></details>
+        <p class="check-msg"></p>
+      </article>
+
+      <article class="task" data-task="increaseQty">
+        <header><span class="num">3</span><h3>Кнопка «+» — ещё одну штуку</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> покупатель хочет 3 кофе вместо 2. Нужна новая корзина, где у одного товара qty больше на 1, а остальные товары не тронуты.</p>
+        <div class="sig"><code>increaseQty(cart, id)</code> → новый массив</div>
+        <div class="ba">
+          <div><small>БЫЛО: cart, id = 2</small><pre>[ Чай qty:1, Кофе qty:2 ]</pre></div><div class="arrow">→</div>
+          <div><small>ВЕРНУТЬ</small><pre>[ Чай qty:1, Кофе <mark>qty:3</mark> ]</pre></div>
+        </div>
+        <details><summary>Подсказка</summary><pre>// map проходит по всем товарам и собирает новый массив
+cart.map((item) => {
+  if (item.id !== id) {
+    return item;              // чужой товар — как есть
+  }
+  return { ...item, qty: ??? }; // нужный — новый объект
+});</pre></details>
+        <p class="check-msg"></p>
+      </article>
+
+      <article class="task" data-task="changePrice">
+        <header><span class="num">4</span><h3>Кнопка «−10%» — скидка в каталоге</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> менеджер снижает цену одного товара. Нужен новый каталог, где у товара новая цена. Тот же приём, что в задании 3.</p>
+        <div class="sig"><code>changePrice(catalog, id, price)</code> → новый массив</div>
+        <div class="ba">
+          <div><small>БЫЛО: id = 1, price = 162</small><pre>[ Чай 180, Кофе 250, Сок 150 … ]</pre></div><div class="arrow">→</div>
+          <div><small>ВЕРНУТЬ</small><pre>[ Чай <mark>162</mark>, Кофе 250, Сок 150 … ]</pre></div>
+        </div>
+        <details><summary>Подсказка</summary><pre>catalog.map((product) =>
+  product.id === id ? { ...product, price } : product
+);</pre></details>
+        <p class="check-msg"></p>
+      </article>
+
+      <article class="task" data-task="addOrIncrease">
+        <header><span class="num">5</span><h3>Бонус: без дублей в корзине</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> нажмите «В корзину» у Чая дважды — он появится два раза. Неправильно! Если товар уже в корзине — увеличиваем qty, иначе добавляем. Когда функция готова, кнопка «В корзину» начнёт использовать её.</p>
+        <div class="sig"><code>addOrIncrease(cart, product)</code> → новый массив</div>
+        <div class="ba">
+          <div><small>БЫЛО: product = Чай</small><pre>[ Чай qty:1, Кофе qty:2 ]</pre></div><div class="arrow">→</div>
+          <div><small>ВЕРНУТЬ</small><pre>[ Чай <mark>qty:2</mark>, Кофе qty:2 ]</pre></div>
+        </div>
+        <details><summary>Подсказка</summary><pre>// some — есть ли хоть один товар с таким id?
+const inCart = cart.some((item) => item.id === product.id);
+// дальше — используйте свои функции из заданий 1 и 3</pre></details>
+        <p class="check-msg"></p>
+      </article>
+    </div>
+  </section>
+</main>
+<script src="./kit.js"></script>
+<script src="./script.js"></script>
+<script src="./check.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>

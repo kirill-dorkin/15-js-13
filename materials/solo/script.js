@@ -1,37 +1,44 @@
+// ─────────────────────────────────────────────────────────────
 // Урок 13 · Самостоятельно: плейлист
-// Правило: функции НЕ меняют входные данные. Возвращаем новый массив / объект.
+//
+// Плейлист — массив объектов-песен. Пример песни:
+//   { id: 1, title: "Gulzada", artist: "Mirbek", likes: 12, saved: false }
+//
+// Настройки — объект с вложенным объектом player:
+//   { theme: "dark", player: { volume: 50, shuffle: false } }
+//
+// Каждая функция = одна кнопка плеера (index.html).
+// ПРАВИЛО: входные данные НЕ меняем. Возвращаем НОВЫЕ (return).
+// После каждой функции: сохранить → обновить страницу (F5).
+// ─────────────────────────────────────────────────────────────
 
-const playlist = [
-  { id: 1, title: "Gulzada", artist: "Mirbek", likes: 12, saved: false },
-  { id: 2, title: "Night City", artist: "Nova", likes: 40, saved: true },
-  { id: 3, title: "Ala-Too", artist: "Aibek", likes: 7, saved: false },
-];
 
-const settings = {
-  theme: "dark",
-  player: { volume: 50, shuffle: false },
-};
-
-// 1. Добавить песню в конец
+// 1. «Добавить»: новый плейлист, где song — в конце.
 function addSong(playlist, song) {
+
 }
 
-// 2. Убрать песню по id
+
+// 2. «✕»: новый плейлист без песни с этим id.
 function removeSong(playlist, id) {
+
 }
 
-// 3. likes + 1 у песни с этим id
+
+// 3. «♥»: у песни с этим id likes + 1. Остальные — как есть.
 function likeSong(playlist, id) {
+
 }
 
-// 4. saved: !song.saved у песни с этим id
+
+// 4. «☆»: у песни с этим id saved меняется на противоположное.
 function toggleSaved(playlist, id) {
+
 }
 
-// 5. Бонус: новые settings, где player.volume = volume
-//    Внимание: player — вложенный объект!
+
+// 5. Бонус. Ползунок: новые settings, где player.volume = volume.
+//    player — вложенный объект!
 function setVolume(settings, volume) {
-}
 
-console.log(likeSong(playlist, 1));
-console.log(playlist); // должен остаться прежним
+}

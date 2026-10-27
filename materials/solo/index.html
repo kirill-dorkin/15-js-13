@@ -4,19 +4,90 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Урок 13 · Плейлист</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./page.css" />
 </head>
 <body>
-  <main>
-    <h1>Урок 13 · <span>Плейлист</span></h1>
-    <p class="lead">Самостоятельно. Цель — все проверки зелёные. Входные данные не меняем.</p>
-    <section class="card"><h2>ЗАДАНИЯ</h2><ol><li><code>addSong(playlist, song)</code> — добавить песню в конец.</li><li><code>removeSong(playlist, id)</code> — убрать песню по id.</li><li><code>likeSong(playlist, id)</code> — likes + 1 у одной песни.</li><li><code>toggleSaved(playlist, id)</code> — saved: !song.saved у одной песни.</li><li>Бонус: <code>setVolume(settings, volume)</code> — поменять <code>settings.player.volume</code>.</li></ol></section>
-    <section class="card"><h2>АВТОПРОВЕРКА · обновите страницу после каждой функции</h2><div id="checks"></div></section>
-    <section class="card"><h2>ВАШ ВЫВОД (console.log)</h2><p class="lead">Откройте консоль: F12 → Console.</p></section>
-  </main>
-  <script src="./check-kit.js"></script>
-  <script src="./script.js"></script>
-  <script src="./check.js"></script>
+<main>
+  <header>
+    <h1>Самостоятельно · <span>музыкальный плейлист</span></h1>
+    <p class="lead">Тот же приём, что в корзине, но с песнями. Кнопки плеера вызывают функции из <b>script.js</b>. Напишите функции — и плеер заработает. Цель: все задания ✅.</p>
+  </header>
+
+  <section class="steps">
+    <div><b>ШАГ 1</b>Откройте <code>script.js</code></div>
+    <div><b>ШАГ 2</b>Напишите функцию по заданию ниже</div>
+    <div><b>ШАГ 3</b>Сохраните и обновите страницу (<code>F5</code>)</div>
+    <div><b>ШАГ 4</b>Нажмите кнопку в плеере и проверьте ✅</div>
+  </section>
+
+  <section class="card">
+    <h2>ПЛЕЕР · кнопки вызывают ваши функции</h2>
+    <div class="app">
+      <div><h3>Плейлист <small>playlist</small></h3><div class="list" id="playlist"></div></div>
+      <div>
+        <h3>Добавить песню <small>addSong</small></h3>
+        <div class="row"><input id="newTitle" class="grow" placeholder="Название песни" maxlength="40" /><button class="main" data-act="add">Добавить</button></div>
+        <h3 style="margin-top:18px">Настройки <small>settings</small></h3>
+        <div class="row"><div class="grow"><strong>Громкость: <span id="volume">50</span></strong><small>settings.player.volume — вложенный объект</small></div><input type="range" id="volumeRange" min="0" max="100" step="10" value="50" /></div>
+      </div>
+    </div>
+    <div class="status" id="status">Нажмите любую кнопку. Здесь появится, что сделала функция.</div>
+  </section>
+
+  <section>
+    <div class="tasks-head"><h2>ЗАДАНИЯ</h2><div id="score"></div></div>
+    <div class="tasks">
+      <article class="task" data-task="addSong">
+        <header><span class="num">1</span><h3>Кнопка «Добавить»</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> пользователь добавил песню. Нужен новый плейлист с этой песней в конце.</p>
+        <div class="sig"><code>addSong(playlist, song)</code> → новый массив</div>
+        <div class="ba"><div><small>БЫЛО</small><pre>[ Gulzada, Night City, Ala-Too ]</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ (song = Tengri)</small><pre>[ Gulzada, Night City, Ala-Too, <mark>Tengri</mark> ]</pre></div></div>
+        <details><summary>Подсказка</summary><pre>Как addToCart в корзине, только песню копировать не нужно:
+[...старыйМассив, новыйЭлемент]</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="removeSong">
+        <header><span class="num">2</span><h3>Кнопка «✕»</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> пользователь удалил песню. Нужен новый плейлист без песни с этим id.</p>
+        <div class="sig"><code>removeSong(playlist, id)</code> → новый массив</div>
+        <div class="ba"><div><small>БЫЛО: id = 1</small><pre>[ Gulzada, Night City, Ala-Too ]</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ</small><pre>[ Night City, Ala-Too ]</pre></div></div>
+        <details><summary>Подсказка</summary><pre>filter: оставляем всех, у кого id не равен удаляемому.</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="likeSong">
+        <header><span class="num">3</span><h3>Кнопка «♥» — лайк</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> лайк добавляет +1 к likes у одной песни. Остальные песни не меняются.</p>
+        <div class="sig"><code>likeSong(playlist, id)</code> → новый массив</div>
+        <div class="ba"><div><small>БЫЛО: id = 3</small><pre>Ala-Too likes: 7</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ</small><pre>Ala-Too likes: <mark>8</mark> (остальные как были)</pre></div></div>
+        <details><summary>Подсказка</summary><pre>map: нужная песня → { ...song, likes: song.likes + 1 }
+остальные → song как есть</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="toggleSaved">
+        <header><span class="num">4</span><h3>Кнопка «☆» — сохранить</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> звёздочка включает и выключает «сохранено». true → false, false → true.</p>
+        <div class="sig"><code>toggleSaved(playlist, id)</code> → новый массив</div>
+        <div class="ba"><div><small>БЫЛО: id = 2</small><pre>Night City saved: true</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ</small><pre>Night City saved: <mark>false</mark></pre></div></div>
+        <details><summary>Подсказка</summary><pre>То же, что лайк, только поле saved: !song.saved</pre></details>
+        <p class="check-msg"></p>
+      </article>
+      <article class="task" data-task="setVolume">
+        <header><span class="num">5</span><h3>Бонус: ползунок громкости</h3><span class="badge">⏳</span></header>
+        <p class="why"><b>Зачем:</b> громкость лежит <b>внутри</b> settings.player. Это вложенный объект — копировать нужно оба уровня.</p>
+        <div class="sig"><code>setVolume(settings, volume)</code> → новый объект</div>
+        <div class="ba"><div><small>БЫЛО</small><pre>{ theme: "dark",
+  player: { volume: 50, shuffle: false } }</pre></div><div class="arrow">→</div><div><small>ВЕРНУТЬ (volume = 80)</small><pre>{ theme: "dark",
+  player: { volume: <mark>80</mark>, shuffle: false } }</pre></div></div>
+        <details><summary>Подсказка</summary><pre>{ ...settings, player: { ...settings.player, volume } }</pre></details>
+        <p class="check-msg"></p>
+      </article>
+    </div>
+  </section>
+</main>
+<script src="./kit.js"></script>
+<script src="./script.js"></script>
+<script src="./check.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>

@@ -99,3 +99,9 @@ body.dark .prim.changed{background:#4a3417;color:#ffd39b;border-color:#8a6232}
 .concept{padding:13px 0}.concept h3{font-size:clamp(16px,1.5vw,21px);margin-bottom:4px}.concept p{font-size:13px}
 .primary,.secondary{padding-top:9px;padding-bottom:9px}
 }
+.pr-row{display:grid;grid-template-columns:25px minmax(0,.85fr) minmax(0,1.25fr);grid-template-areas:"n b c" "n r r";column-gap:12px;row-gap:2px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.pr-row i{grid-area:n;align-self:start}.pr-btn{grid-area:b;font-weight:800}.pr-row code{grid-area:c;width:fit-content;font-size:.85em}.pr-ret{grid-area:r;color:var(--muted);font-size:.92em;font-weight:650}
+.flow{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:#d9d6f5;font-size:clamp(12px,1vw,14px);font-weight:650;line-height:1.45}.flow b{color:#fff}
+.download a.open-link{background:var(--pale);color:var(--purple)}.download{flex-wrap:wrap}
+@media (max-height:800px) and (min-width:761px){.pr-row{padding:5px 0}.flow{gap:3px;font-size:12px}.goal .minutes{font-size:20px}}
+body{color:var(--ink);background:var(--bg)}
